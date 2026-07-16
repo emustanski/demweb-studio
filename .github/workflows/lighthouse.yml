@@ -1,0 +1,60 @@
+name: Lighthouse score badge
+
+# Runs Lighthouse against the deployed site after every push to main, then
+# commits the score into src/data/lighthouse-score.json so the homepage trust
+# strip can read it at build time. Deliberately NOT called from the browser —
+# a live PageSpeed API request on every visit would add exactly the
+# third-party latency this badge is claiming not to have (CLAUDE.md Section 5).
+#
+# Requires these repo secrets once the Cloudflare Pages project exists:
+#   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: demweb-studio
+          directory: dist
+
+      - name: Run Lighthouse CI
+        id: lighthouse
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: ${{ steps.deploy.outputs.url }}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Write score into src/data/lighthouse-score.json
+        run: node scripts/write-lighthouse-score.mjs '${{ steps.lighthouse.outputs.manifest }}'
+
+      - name: Commit updated score
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update Lighthouse score badge [skip ci]"
+          file_pattern: src/data/lighthouse-score.json

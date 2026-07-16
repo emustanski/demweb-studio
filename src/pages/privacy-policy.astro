@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout title="Privacy Policy" description="How DEMWeb Studio collects, stores, and uses information submitted through this site.">
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Privacy Policy</h1>
+    <p class="mt-4 text-sm text-ink-muted">Last updated: 16 July 2026</p>
+
+    <div class="mt-10 rounded-2xl border border-dashed border-border bg-page px-6 py-5 text-sm text-ink-secondary">
+      <strong class="text-ink">Placeholder — legal entity not yet registered.</strong>{' '}
+      DEMWeb Studio's business entity is not yet formally registered (expected: Bulgaria). The data controller for
+      this site will be listed here as{' '}
+      <strong class="text-ink">[Legal entity name and registered address — pending business registration]</strong>{' '}
+      once registration is complete.
+    </div>
+
+    <div class="mt-10 space-y-8 text-ink-secondary">
+      <div>
+        <h2 class="text-xl font-medium text-ink">What we collect</h2>
+        <p class="mt-2">
+          When you submit the contact form on this site, we collect the name, email address, service you're
+          interested in, and message you provide. We do not collect any information beyond what you voluntarily
+          submit.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">How we use it</h2>
+        <p class="mt-2">
+          Contact form submissions are used solely to respond to your enquiry. Submissions are delivered by email
+          via Resend, a transactional email provider, to the studio's inbox. We do not sell, rent, or share your
+          information with third parties for marketing purposes.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Spam protection</h2>
+        <p class="mt-2">
+          The contact form uses Cloudflare Turnstile to prevent spam and abuse. Turnstile runs a challenge in your
+          browser and does not use tracking cookies or collect personal data for advertising purposes.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Analytics</h2>
+        <p class="mt-2">
+          This site uses Cloudflare Web Analytics to understand overall traffic and page performance. Cloudflare
+          Web Analytics is cookie-free and does not track individual visitors across sites or build a personal
+          profile — no cookie consent banner is required or shown on this site.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Data retention</h2>
+        <p class="mt-2">
+          Contact form submissions are retained only as long as needed to respond to and resolve your enquiry, or
+          as required by law, after which they are deleted.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Your rights</h2>
+        <p class="mt-2">
+          You can request access to, correction of, or deletion of any information you've submitted by emailing{' '}
+          <a href={`mailto:${SITE.email}`} class="font-medium text-teal hover:underline">{SITE.email}</a>.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Contact</h2>
+        <p class="mt-2">
+          Questions about this policy can be sent to{' '}
+          <a href={`mailto:${SITE.email}`} class="font-medium text-teal hover:underline">{SITE.email}</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

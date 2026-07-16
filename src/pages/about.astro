@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="DEMWeb Studio is a solo web design and SEO studio building fast, honest websites for small businesses and freelancers."
+>
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">About DEMWeb Studio</h1>
+
+    <div class="mt-8 space-y-6 text-lg text-ink-secondary">
+      <p>
+        DEMWeb Studio is a solo web design and SEO studio. It exists because too many small businesses and
+        freelancers end up with a website that's either slow, hard to find in search, or both — usually because it
+        was built from a generic template with more features than the business ever needed, and less performance
+        than it deserved.
+      </p>
+      <p>
+        The studio is built around a narrower focus: fast, hand-built websites with SEO treated as part of the
+        build, not an afterthought bolted on later. That means static-first tooling, self-hosted fonts, clean
+        markup, and no unnecessary third-party scripts slowing pages down — the same standard this site is held to.
+      </p>
+      <p>
+        Clients are typically small companies and independent freelancers who need a site that actually represents
+        the business and gets found in search — not an agency-scale engagement with agency-scale overhead.
+      </p>
+    </div>
+
+    <div class="mt-12 rounded-2xl border border-border bg-card p-8 sm:p-10">
+      <h2 class="text-xl font-medium text-ink">How projects run</h2>
+      <p class="mt-3 text-ink-secondary">
+        Every project follows the same five-step process, from first conversation to post-launch support.
+      </p>
+      <a
+        href="/process"
+        class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-teal hover:underline"
+      >
+        See how we work →
+      </a>
+    </div>
+
+    <div class="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-ink-secondary">Have a project in mind?</p>
+      <a
+        href="/contact"
+        class="inline-flex items-center justify-center rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
+      >
+        Get a Free Quote
+      </a>
+    </div>
+  </section>
+</BaseLayout>

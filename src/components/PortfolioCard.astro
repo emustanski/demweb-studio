@@ -1,0 +1,43 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  title: string;
+  slug: string;
+  summary: string;
+  tags: string[];
+  image?: string;
+}
+
+const { title, slug, summary, tags, image } = Astro.props;
+---
+
+<a
+  href={`/portfolio#${slug}`}
+  class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-lg hover:shadow-ink/5"
+>
+  {
+    image ? (
+      <img src={image} alt={title} class="aspect-video w-full object-cover" loading="lazy" />
+    ) : (
+      <div class="relative flex aspect-video w-full items-center justify-center overflow-hidden bg-gradient-to-br from-teal-light to-page">
+        <div class="absolute -left-6 -top-6 size-24 rounded-full bg-teal/10" />
+        <div class="absolute -bottom-8 -right-8 size-32 rounded-2xl bg-teal/10" />
+        <Icon name="IconWorld" class="relative size-10 text-teal/70" />
+      </div>
+    )
+  }
+  <div class="flex flex-1 flex-col p-6">
+    <h3 class="text-lg font-medium text-ink transition-colors group-hover:text-teal">{title}</h3>
+    <p class="mt-2 text-sm text-ink-secondary">{summary}</p>
+    <div class="mt-4 flex flex-wrap gap-2">
+      {
+        tags.map((tag) => (
+          <span class="rounded-full border border-border px-2.5 py-1 text-xs font-medium text-ink-muted">
+            {tag}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</a>

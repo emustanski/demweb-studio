@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+const steps = [
+  {
+    icon: 'IconSearch',
+    title: 'Discovery',
+    description:
+      "A short conversation about your business, your goals, and what your current site (if you have one) is missing. This is where scope and price get set — no surprises later.",
+  },
+  {
+    icon: 'IconCode',
+    title: 'Design',
+    description:
+      'A layout and content plan built around what your visitors need to see first, not a generic template. You review and approve the direction before any build work starts.',
+  },
+  {
+    icon: 'IconRocket',
+    title: 'Build',
+    description:
+      'The site gets built — fast, mobile-first, and structured for SEO from the start. You get progress updates, not radio silence until launch day.',
+  },
+  {
+    icon: 'IconBolt',
+    title: 'Launch',
+    description:
+      'Final review, performance checks, and go-live. Domain, hosting, and analytics are set up so the site is fully yours from day one.',
+  },
+  {
+    icon: 'IconMessage',
+    title: 'Support',
+    description:
+      "Post-launch support for fixes and small updates, so you're not on your own the moment the site goes live.",
+  },
+];
+---
+
+<BaseLayout
+  title="How We Work"
+  description="A five-step process from first conversation to post-launch support — built to remove the guesswork of hiring a freelance studio."
+>
+  <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">How We Work</h1>
+    <p class="mt-5 max-w-2xl text-lg text-ink-secondary">
+      Hiring a freelance studio for the first time can feel uncertain. Here's exactly what happens, step by step.
+    </p>
+
+    <ol class="mt-12 space-y-6">
+      {
+        steps.map((step, index) => (
+          <li class="flex gap-5 rounded-2xl border border-border bg-card p-6 sm:p-8">
+            <div class="flex flex-col items-center">
+              <span class="flex size-11 shrink-0 items-center justify-center rounded-lg bg-teal-light text-teal">
+                <Icon name={step.icon} class="size-5" />
+              </span>
+              {index < steps.length - 1 && <span class="mt-2 w-px flex-1 bg-border" />}
+            </div>
+            <div>
+              <p class="text-sm font-medium text-ink-muted">Step {index + 1}</p>
+              <h2 class="mt-1 text-xl font-medium text-ink">{step.title}</h2>
+              <p class="mt-2 text-ink-secondary">{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-12 flex flex-col items-start gap-4 rounded-2xl bg-teal-light p-8 sm:flex-row sm:items-center sm:justify-between sm:p-10">
+      <p class="text-teal-deep">Ready to start with Discovery?</p>
+      <a
+        href="/contact"
+        class="inline-flex items-center justify-center rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
+      >
+        Get a Free Quote
+      </a>
+    </div>
+  </section>
+</BaseLayout>

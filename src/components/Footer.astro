@@ -1,0 +1,81 @@
+---
+import { FOOTER_LINKS, LEGAL_LINKS, SITE } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-card">
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-start justify-between gap-6 rounded-2xl bg-teal-light px-6 py-8 sm:flex-row sm:items-center sm:px-10">
+      <div>
+        <p class="text-lg font-medium text-teal-deep">Ready to talk about your website?</p>
+        <p class="mt-1 text-sm text-teal-deep/80">
+          Get a free quote, or a free 5-point check if you already have a site.
+        </p>
+      </div>
+      <a
+        href="/contact"
+        class="inline-block shrink-0 rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
+      >
+        Get a Free Quote
+      </a>
+    </div>
+
+    <div class="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4">
+      <div class="col-span-2 sm:col-span-1">
+        <a href="/" class="flex items-center gap-2 text-ink" aria-label="DEMWeb Studio home">
+          <span class="flex size-8 items-center justify-center rounded-lg bg-teal text-xs font-medium text-white"
+            >DW</span
+          >
+          <span class="text-sm font-medium">DEMWeb Studio</span>
+        </a>
+        <p class="mt-3 text-sm text-ink-muted">{SITE.tagline}</p>
+      </div>
+
+      <div>
+        <p class="text-sm font-medium text-ink">Studio</p>
+        <ul class="mt-3 space-y-2">
+          {
+            FOOTER_LINKS.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-ink-secondary transition-colors hover:text-teal">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-sm font-medium text-ink">Legal</p>
+        <ul class="mt-3 space-y-2">
+          {
+            LEGAL_LINKS.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-ink-secondary transition-colors hover:text-teal">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-sm font-medium text-ink">Contact</p>
+        <ul class="mt-3 space-y-2">
+          <li>
+            <a href={`mailto:${SITE.email}`} class="text-sm text-ink-secondary transition-colors hover:text-teal">
+              {SITE.email}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 border-t border-border pt-6">
+      <p class="text-sm text-ink-muted">&copy; {year} DEMWeb Studio. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { faqPageSchema } from '../lib/schema';
+
+const faqs = [
+  {
+    question: 'How much does a website cost?',
+    answer:
+      "It depends on scope. A single-page launch site starts from €350, a multi-page CMS-ready build starts from €800, and a redesign of an existing site is typically quoted from €800 depending on how much of the current site can be carried forward. See the Services page for the full breakdown, or get a free quote for an exact number.",
+  },
+  {
+    question: 'How long does a project take?',
+    answer:
+      'A single-page site typically takes 1-2 weeks from Discovery to launch. A multi-page CMS-ready build or a redesign usually takes 3-5 weeks, depending on how much content needs to be written or migrated.',
+  },
+  {
+    question: "What's the difference between the free site check and the paid SEO audit?",
+    answer:
+      "The free 5-point site check is a quick, no-cost teaser that flags the most obvious issues. The Full SEO Audit is the paid, in-depth version — a written report covering technical SEO, on-page content, and site structure, with a prioritized list of fixes.",
+  },
+  {
+    question: 'Do I need to provide the content and images?',
+    answer:
+      "You know your business best, so you provide the core content (text, photos, logo if you have one). Copy can be refined together during the Design step, and stock or custom graphics can be sourced if needed.",
+  },
+  {
+    question: 'Will my site work on mobile?',
+    answer:
+      'Yes — every site is built mobile-first, since most visitors to a small business site arrive on a phone. Desktop is the secondary target, not the other way around.',
+  },
+  {
+    question: 'Do you build with WordPress?',
+    answer:
+      "No. Sites are hand-built with Astro, a modern framework that ships little to no JavaScript by default. That means faster load times and better SEO out of the box compared to a typical WordPress theme, without plugin bloat or constant security patching.",
+  },
+  {
+    question: 'What happens after my site launches?',
+    answer:
+      "Post-launch support is included for fixes and small updates. If you need ongoing content updates or larger changes later, those are scoped separately.",
+  },
+  {
+    question: 'Can you redesign my existing site without losing my search rankings?',
+    answer:
+      'Yes — a redesign includes a technical SEO audit of the current site and a migration plan with redirects, so existing search rankings carry over rather than resetting to zero.',
+  },
+  {
+    question: 'I run a business in Germany or Bulgaria — can you write content for that market?',
+    answer:
+      'Yes. German and Bulgarian language support is on the roadmap, with content written for local search intent rather than a direct translation of the English site.',
+  },
+  {
+    question: "What if I'm not sure which service I need?",
+    answer:
+      "That's normal — most first-time visitors aren't sure. Get in touch and describe what you're trying to achieve; the right service (or mix of services) gets recommended from there.",
+  },
+];
+---
+
+<BaseLayout
+  title="FAQ"
+  description="Answers to common questions about pricing, timelines, process, and what's included in a DEMWeb Studio project."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema(faqs))} />
+
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Frequently Asked Questions</h1>
+    <p class="mt-5 text-lg text-ink-secondary">
+      Common questions about pricing, timelines, and how projects work. Don't see yours?{' '}
+      <a href="/contact" class="font-medium text-teal hover:underline">Get in touch</a>.
+    </p>
+
+    <div class="mt-12 divide-y divide-border rounded-2xl border border-border bg-card">
+      {
+        faqs.map((faq) => (
+          <details class="group px-6 py-5 sm:px-8">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-medium text-ink marker:content-none">
+              {faq.question}
+              <span class="shrink-0 text-xl leading-none text-teal transition-transform group-open:rotate-45">+</span>
+            </summary>
+            <p class="mt-3 text-sm text-ink-secondary">{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

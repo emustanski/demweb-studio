@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout title="Terms of Service" description="Payment terms, project scope, and liability for work commissioned through DEMWeb Studio.">
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Terms of Service</h1>
+    <p class="mt-4 text-sm text-ink-muted">Last updated: 16 July 2026</p>
+
+    <div class="mt-10 rounded-2xl border border-dashed border-border bg-page px-6 py-5 text-sm text-ink-secondary">
+      <strong class="text-ink">Placeholder — legal entity not yet registered.</strong>{' '}
+      DEMWeb Studio's business entity is not yet formally registered (expected: Bulgaria). These terms will be
+      updated to name the contracting party as{' '}
+      <strong class="text-ink">[Legal entity name and registered address — pending business registration]</strong>{' '}
+      once registration is complete.
+    </div>
+
+    <div class="mt-10 space-y-8 text-ink-secondary">
+      <div>
+        <h2 class="text-xl font-medium text-ink">Project scope</h2>
+        <p class="mt-2">
+          Every project begins with a Discovery conversation, after which a written scope and price are agreed
+          before any build work starts. Work is limited to what's defined in that scope.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Changes to scope</h2>
+        <p class="mt-2">
+          One round of revisions is included in the Business-tier build as standard (see Services). Requests that
+          go beyond the agreed scope — additional pages, features, or major content changes — are quoted and
+          agreed separately before work begins on them.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Payment</h2>
+        <p class="mt-2">
+          Unless otherwise agreed in writing, projects are invoiced as a deposit before work begins and a final
+          payment before launch. Speed optimization and SEO audit engagements are invoiced in full upfront. Late
+          payment may pause work until the account is settled.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Timelines</h2>
+        <p class="mt-2">
+          Estimated timelines are provided at the Discovery stage. Timelines depend on content and feedback being
+          provided promptly — delays on the client side may extend the delivery date accordingly.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Ownership</h2>
+        <p class="mt-2">
+          Once final payment is received, ownership of the delivered website (design and code produced for the
+          project) transfers to the client. Any third-party assets (fonts, licensed images, plugins) remain
+          subject to their own licenses.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Liability</h2>
+        <p class="mt-2">
+          DEMWeb Studio will deliver work with reasonable skill and care, but is not liable for indirect or
+          consequential losses arising from use of the delivered website, including third-party service outages
+          (hosting, DNS, email delivery) outside our direct control. Total liability for any project is limited to
+          the amount paid for that project.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Support</h2>
+        <p class="mt-2">
+          Post-launch support covers fixes to work delivered as part of the project. Ongoing content updates or
+          new feature work are scoped and quoted separately.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-medium text-ink">Contact</h2>
+        <p class="mt-2">
+          Questions about these terms can be sent to{' '}
+          <a href={`mailto:${SITE.email}`} class="font-medium text-teal hover:underline">{SITE.email}</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

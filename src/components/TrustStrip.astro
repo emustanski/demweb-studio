@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import lighthouseScore from '../data/lighthouse-score.json';
+
+// The score is written by the Lighthouse CI GitHub Action on each deploy
+// (see .github/workflows/lighthouse.yml), never fetched live in the browser —
+// a live PageSpeed API call would add the exact third-party latency this
+// badge is claiming not to have (CLAUDE.md Section 5).
+const speedLabel =
+  typeof lighthouseScore.score === 'number' ? `Built for speed — ${lighthouseScore.score}/100` : 'Built for speed';
+
+const items = [
+  { icon: 'IconBolt', label: speedLabel },
+  { icon: 'IconSearch', label: 'SEO-first build' },
+  { icon: 'IconWorld', label: 'Multilingual-ready' },
+];
+---
+
+<div class="border-y border-border bg-card">
+  <div class="mx-auto grid max-w-6xl grid-cols-1 divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+    {
+      items.map((item) => (
+        <div class="flex items-center justify-center gap-3 px-4 py-6">
+          <Icon name={item.icon} class="size-5 text-teal" />
+          <span class="text-sm font-medium text-ink">{item.label}</span>
+        </div>
+      ))
+    }
+  </div>
+</div>

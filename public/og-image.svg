@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#F4F2EC" />
+  <rect x="60" y="60" width="110" height="110" rx="24" fill="#0F6E56" />
+  <text
+    x="115"
+    y="132"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+    font-weight="500"
+    font-size="46"
+    fill="#FFFFFF"
+  >DW</text>
+  <text
+    x="60"
+    y="290"
+    font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+    font-weight="500"
+    font-size="58"
+    fill="#1C1C1A"
+  >DEMWeb Studio</text>
+  <text
+    x="60"
+    y="350"
+    font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+    font-weight="400"
+    font-size="32"
+    fill="#4B4C46"
+  >Fast, SEO-first websites for small</text>
+  <text
+    x="60"
+    y="395"
+    font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+    font-weight="400"
+    font-size="32"
+    fill="#4B4C46"
+  >businesses and freelancers</text>
+  <rect x="60" y="450" width="220" height="56" rx="10" fill="#DCEFE6" />
+  <text
+    x="170"
+    y="484"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+    font-weight="500"
+    font-size="24"
+    fill="#085041"
+  >Built for speed</text>
+</svg>

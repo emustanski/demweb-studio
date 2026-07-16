@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  icon: string;
+  title: string;
+  slug: string;
+  priceLabel: string;
+  popular?: boolean;
+}
+
+const { icon, title, slug, priceLabel, popular = false } = Astro.props;
+---
+
+<a
+  href={`/services#${slug}`}
+  class="flex items-center justify-between gap-4 border-b border-border py-4 transition-colors last:border-b-0 hover:bg-page/60"
+>
+  <div class="flex items-center gap-4">
+    <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-teal-light text-teal">
+      <Icon name={icon} class="size-5" />
+    </span>
+    <span class="flex flex-wrap items-center gap-2">
+      <span class="text-sm font-medium text-ink sm:text-base">{title}</span>
+      {
+        popular && (
+          <span class="rounded-full bg-amber-badge-bg px-2.5 py-0.5 text-xs font-medium text-amber-badge-text">
+            Popular
+          </span>
+        )
+      }
+    </span>
+  </div>
+  <span class="shrink-0 text-sm font-medium text-ink-muted">{priceLabel}</span>
+</a>

@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BrowserFrameGraphic from '../components/BrowserFrameGraphic.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import ServiceListItem from '../components/ServiceListItem.astro';
+import ReassuranceBanner from '../components/ReassuranceBanner.astro';
+import PortfolioCard from '../components/PortfolioCard.astro';
+import ReviewsSection from '../components/ReviewsSection.astro';
+import { SITE } from '../lib/site';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const featuredWork = (await getCollection('portfolio')).filter((entry) => entry.data.featured).slice(0, 3);
+---
+
+<BaseLayout title={SITE.name} description={SITE.description}>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">
+          Websites that load fast and get found.
+        </h1>
+        <p class="mt-5 text-lg text-ink-secondary">
+          DEMWeb Studio builds fast, SEO-first websites for small businesses and freelancers — from a first launch
+          site to a full redesign.
+        </p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a
+            href="/contact?interested=Full+SEO+Audit"
+            class="inline-flex items-center justify-center rounded-lg border border-border bg-card px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-teal hover:text-teal"
+          >
+            Get a Free 5-Point Site Check
+          </a>
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
+          >
+            Get a Free Quote
+          </a>
+        </div>
+      </div>
+      <div class="mx-auto w-full max-w-md lg:mx-0">
+        <BrowserFrameGraphic />
+      </div>
+    </div>
+  </section>
+
+  <TrustStrip />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between gap-4">
+      <h2 class="text-2xl font-medium text-ink sm:text-3xl">Services</h2>
+      <a href="/services" class="text-sm font-medium text-teal hover:underline">View all services</a>
+    </div>
+    <div class="mt-6 rounded-2xl border border-border bg-card px-4 sm:px-6">
+      {
+        services.map((service) => (
+          <ServiceListItem
+            icon={service.data.icon}
+            title={service.data.title}
+            slug={service.data.slug}
+            priceLabel={service.data.priceLabel}
+            popular={service.data.popular}
+          />
+        ))
+      }
+    </div>
+    <div class="mt-6">
+      <ReassuranceBanner />
+    </div>
+  </section>
+
+  {
+    featuredWork.length > 0 && (
+      <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between gap-4">
+          <h2 class="text-2xl font-medium text-ink sm:text-3xl">Featured work</h2>
+          <a href="/portfolio" class="text-sm font-medium text-teal hover:underline">
+            See all work
+          </a>
+        </div>
+        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featuredWork.map(({ data }) => (
+            <PortfolioCard
+              title={data.title}
+              slug={data.slug}
+              summary={data.summary}
+              tags={data.tags}
+              image={data.image}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <ReviewsSection />
+</BaseLayout>

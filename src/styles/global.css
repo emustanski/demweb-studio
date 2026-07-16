@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* Inter — self-hosted via @fontsource, weights 400/500 only (CLAUDE.md Section 6) */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+
+/*
+ * Design tokens — CLAUDE.md Section 6.
+ * Dark mode is deferred (not wired up), but the future coral-accent palette is
+ * recorded here so introducing it later is a token swap, not a rebuild:
+ *   page #1E1C19 · card #2B2822 · accent #D85A30 / hover #E8734A
+ *   badge bg #712B13 · badge text #F5C4B3
+ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Primary accent — teal. CTAs, links, icons. */
+  --color-teal: #0f6e56;
+  --color-teal-hover: #0c5a46;
+
+  /* Reassurance banner — same teal family, not a third color. */
+  --color-teal-light: #dcefe6;
+  --color-teal-deep: #085041;
+
+  /* Secondary accent — amber. Confined to the "Popular" badge only. */
+  --color-amber-badge-bg: #faeeda;
+  --color-amber-badge-text: #633806;
+
+  /* Page / card surfaces. */
+  --color-page: #f4f2ec;
+  --color-card: #ffffff;
+
+  /* Hardcoded text colors — verified against the tinted background. */
+  --color-ink: #1c1c1a;
+  --color-ink-secondary: #4b4c46;
+  --color-ink-muted: #5a5b54;
+  --color-border: #e2dfd6;
+}
+
+body {
+  background-color: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}

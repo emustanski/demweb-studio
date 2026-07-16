@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+const projects = await getCollection('portfolio');
+---
+
+<BaseLayout
+  title="Work"
+  description="Case studies from DEMWeb Studio's self-built projects — the problems, the approach, and the results."
+>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div class="max-w-2xl">
+      <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Work</h1>
+      <p class="mt-5 text-lg text-ink-secondary">
+        DEMWeb Studio is a new studio, so the projects below are self-built concept sites — framed as real case
+        studies, not a gallery — built to show how we approach a project from problem to result. Real client work
+        will replace these as it lands.
+      </p>
+    </div>
+
+    <div class="mt-12 space-y-10">
+      {
+        projects.map(({ data }) => (
+          <article id={data.slug} class="overflow-hidden rounded-2xl border border-border bg-card">
+            <div class="relative flex aspect-[3/1] w-full items-center justify-center overflow-hidden bg-gradient-to-br from-teal-light to-page">
+              <div class="absolute -left-8 -top-8 size-32 rounded-full bg-teal/10" />
+              <div class="absolute -bottom-10 -right-10 size-40 rounded-2xl bg-teal/10" />
+              <Icon name="IconWorld" class="relative size-12 text-teal/70" />
+            </div>
+            <div class="p-6 sm:p-10">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <h2 class="text-2xl font-medium text-ink">{data.title}</h2>
+                <div class="flex flex-wrap gap-2">
+                  {data.tags.map((tag) => (
+                    <span class="rounded-full border border-border px-2.5 py-1 text-xs font-medium text-ink-muted">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <p class="mt-3 text-ink-secondary">{data.summary}</p>
+
+              <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                <div>
+                  <p class="text-sm font-medium text-teal">Problem</p>
+                  <p class="mt-2 text-sm text-ink-secondary">{data.problem}</p>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-teal">Approach</p>
+                  <p class="mt-2 text-sm text-ink-secondary">{data.approach}</p>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-teal">Result</p>
+                  <p class="mt-2 text-sm text-ink-secondary">{data.result}</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- TODO: link to Edi's personal dev portfolio once that URL exists — kept as
+         plain text for now rather than guessing a URL. -->
+    <div class="mt-16 rounded-2xl border border-border bg-card p-8 text-center sm:p-10">
+      <p class="text-ink-secondary">
+        Looking for Edi's broader individual development work outside the studio? A link to the personal dev
+        portfolio will live here.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

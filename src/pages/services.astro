@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ReassuranceBanner from '../components/ReassuranceBanner.astro';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Services"
+  description="Custom website builds, redesigns, performance optimization, and SEO audits for small businesses and freelancers — transparent starting prices."
+>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div class="max-w-2xl">
+      <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Services</h1>
+      <p class="mt-5 text-lg text-ink-secondary">
+        Every project is scoped and quoted individually — the prices below are starting points, not fixed packages.
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {
+        services.map((service) => (
+          <ServiceCard
+            icon={service.data.icon}
+            title={service.data.title}
+            slug={service.data.slug}
+            priceLabel={service.data.priceLabel}
+            summary={service.data.summary}
+            whatsIncluded={service.data.whatsIncluded}
+            popular={service.data.popular}
+          />
+        ))
+      }
+    </div>
+
+    <div class="mt-8">
+      <ReassuranceBanner />
+    </div>
+
+    <div class="mt-16 flex flex-col items-center gap-4 rounded-2xl border border-border bg-card p-10 text-center">
+      <h2 class="text-2xl font-medium text-ink">Not sure where to start?</h2>
+      <p class="max-w-md text-sm text-ink-secondary">
+        If you already have a site, start with a free check. If you're building from scratch, get a free quote.
+      </p>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <a
+          href="/contact?interested=Full+SEO+Audit"
+          class="inline-flex items-center justify-center rounded-lg border border-border bg-card px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-teal hover:text-teal"
+        >
+          Get a Free 5-Point Site Check
+        </a>
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
+        >
+          Get a Free Quote
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
