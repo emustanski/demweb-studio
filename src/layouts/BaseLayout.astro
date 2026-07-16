@@ -39,19 +39,15 @@ const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
     <meta property="og:image" content={ogImageURL} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!--
-      Google Search Console verification — add the meta tag GSC gives you once
-      the site is submitted (CLAUDE.md Section 5):
-      <meta name="google-site-verification" content="TODO" />
-    -->
+    <meta name="google-site-verification" content="9gZGNlNUA3zMdpK9nBmFGgTdraoQJcRLhSpxuG6U7sE" />
 
     <script type="application/ld+json" set:html={JSON.stringify(professionalServiceSchema())} />
 
-    <!--
-      Cloudflare Web Analytics — paste the beacon script Cloudflare issues for
-      this Pages project once it's created (CLAUDE.md Section 1):
-      <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "TODO"}'></script>
-    -->
+    <script
+      is:inline
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "f4d7e03c1169499481d86a65d0d1c604"}'></script>
   </head>
   <body class="flex min-h-screen flex-col">
     <Nav />
