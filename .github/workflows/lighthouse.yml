@@ -32,6 +32,11 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Baked into the static HTML at build time, unlike the contact
+          # Function's secrets which are read at request time from Cloudflare
+          # Pages env vars — this one has to travel through here instead.
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.PUBLIC_TURNSTILE_SITE_KEY }}
 
       - name: Deploy to Cloudflare Pages
         id: deploy
