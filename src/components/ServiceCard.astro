@@ -48,7 +48,7 @@ const { icon, title, slug, priceLabel, summary, whatsIncluded, popular = false }
     }
   </ul>
 
-  <div class="mt-6 flex items-center justify-between gap-4 border-t border-border pt-6">
+  <div class="mt-6 flex flex-col items-start gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
     <span class="text-base font-medium text-ink-muted">{priceLabel}</span>
     <a
       href={`/contact?interested=${encodeURIComponent(title)}`}

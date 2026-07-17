@@ -1,5 +1,10 @@
 ---
 import '../styles/global.css';
+// Imported directly (not via CSS @import in global.css) so Vite emits these
+// as parallel-loadable <link rel="stylesheet"> tags instead of a
+// render-blocking nested-import chain — see the comment in global.css.
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../lib/site';
@@ -41,7 +46,7 @@ const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
 
     <meta name="google-site-verification" content="9gZGNlNUA3zMdpK9nBmFGgTdraoQJcRLhSpxuG6U7sE" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(professionalServiceSchema())} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(professionalServiceSchema())} />
 
     <script
       is:inline
@@ -49,7 +54,7 @@ const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
       src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon='{"token": "f4d7e03c1169499481d86a65d0d1c604"}'></script>
   </head>
-  <body class="flex min-h-screen flex-col">
+  <body class="flex min-h-screen flex-col overflow-x-hidden">
     <Nav />
     <main class="flex-1">
       <slot />

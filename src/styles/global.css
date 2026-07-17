@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
-/* Inter — self-hosted via @fontsource, weights 400/500 only (CLAUDE.md Section 6) */
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
+/*
+ * Inter font CSS is imported directly in BaseLayout.astro's frontmatter,
+ * not here via @import — nesting it inside this stylesheet would make the
+ * browser fetch and parse global.css before it could even discover the font
+ * files, adding a render-blocking round trip. A direct JS import lets Vite
+ * emit it as its own parallel-loadable <link rel="stylesheet"> instead.
+ */
 
 /*
  * Design tokens — CLAUDE.md Section 6.
