@@ -59,13 +59,25 @@ export async function onRequestPost({ request, env }: PagesFunctionContext<Env>)
 
   const { name, email, interested, message, turnstileToken } = payload;
 
-  if (!name?.trim() || !email?.trim() || !message?.trim() || !turnstileToken) {
-    return jsonResponse({ error: 'Missing required fields.' }, 400);
+  // Returns which field is at fault, not just a generic message — lets the
+  // client point at the actual input even if a request bypasses client-side
+  // validation entirely (e.g. a direct API call).
+  if (!name?.trim()) {
+    return jsonResponse({ error: 'Please enter your name.', field: 'name' }, 400);
+  }
+  if (!email?.trim()) {
+    return jsonResponse({ error: 'Please enter your email address.', field: 'email' }, 400);
+  }
+  if (!message?.trim()) {
+    return jsonResponse({ error: 'Please enter a message.', field: 'message' }, 400);
+  }
+  if (!turnstileToken) {
+    return jsonResponse({ error: 'Missing spam check token.' }, 400);
   }
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
-    return jsonResponse({ error: 'Invalid email address.' }, 400);
+    return jsonResponse({ error: 'Please enter a valid email address.', field: 'email' }, 400);
   }
 
   const remoteIp = request.headers.get('CF-Connecting-IP');

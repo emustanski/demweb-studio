@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
 ---
 
 <BaseLayout title="Page Not Found" description="The page you're looking for doesn't exist." noindex>
@@ -12,18 +13,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       The page you're looking for doesn't exist, or has moved.
     </p>
     <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-      <a
-        href="/"
-        class="inline-flex items-center justify-center rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
-      >
-        Back to homepage
-      </a>
-      <a
-        href="/contact"
-        class="inline-flex items-center justify-center rounded-lg border border-border bg-card px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-teal hover:text-teal"
-      >
-        Contact us
-      </a>
+      <Button href="/">Back to homepage</Button>
+      <Button href="/contact" variant="secondary">Contact us</Button>
     </div>
   </section>
 </BaseLayout>

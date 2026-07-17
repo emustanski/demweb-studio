@@ -17,6 +17,9 @@ interface Props {
   noindex?: boolean;
 }
 
+// ogImage defaults to one shared /og-image.svg for every page — deliberate,
+// not an oversight: there's no image-generation tooling or per-page design
+// assets in this project. Revisit once real branding/screenshots exist.
 const { title, description, ogImage = '/og-image.svg', noindex = false } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -43,6 +46,10 @@ const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImageURL} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+    <!-- No twitter:site — omitted deliberately, no account handle exists yet. -->
 
     <meta name="google-site-verification" content="9gZGNlNUA3zMdpK9nBmFGgTdraoQJcRLhSpxuG6U7sE" />
 

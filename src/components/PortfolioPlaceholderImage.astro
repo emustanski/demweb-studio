@@ -1,0 +1,36 @@
+---
+// Abstract placeholder used wherever a portfolio entry has no real
+// screenshot yet (see CLAUDE.md Section 6 — geometric shapes, not stock
+// photography). Two size presets: "video" for the compact card teaser
+// (PortfolioCard.astro), "banner" for the full case-study page (portfolio.astro).
+import Icon from './Icon.astro';
+
+interface Props {
+  aspect?: 'video' | 'banner';
+}
+
+const { aspect = 'video' } = Astro.props;
+
+const config = {
+  video: {
+    aspectClass: 'aspect-video',
+    circle1: 'size-24 -left-6 -top-6',
+    circle2: 'size-32 -bottom-8 -right-8',
+    iconSize: 'size-10',
+  },
+  banner: {
+    aspectClass: 'aspect-[3/1]',
+    circle1: 'size-32 -left-8 -top-8',
+    circle2: 'size-40 -bottom-10 -right-10',
+    iconSize: 'size-12',
+  },
+}[aspect];
+---
+
+<div
+  class={`relative flex ${config.aspectClass} w-full items-center justify-center overflow-hidden bg-gradient-to-br from-teal-light to-page`}
+>
+  <div class={`absolute ${config.circle1} rounded-full bg-teal/10`} />
+  <div class={`absolute ${config.circle2} rounded-2xl bg-teal/10`} />
+  <Icon name="IconWorld" class={`relative ${config.iconSize} text-teal/70`} />
+</div>

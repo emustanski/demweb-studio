@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
+import Button from '../components/Button.astro';
 
 const steps = [
   {
@@ -13,13 +14,13 @@ const steps = [
     icon: 'IconCode',
     title: 'Design',
     description:
-      'A layout and content plan built around what your visitors need to see first, not a generic template. You review and approve the direction before any build work starts.',
+      'A layout and content plan built around what your visitors need to see first, mapped out page by page before any code gets written. You review and approve the direction — headlines, structure, calls to action — before build work starts.',
   },
   {
     icon: 'IconRocket',
     title: 'Build',
     description:
-      'The site gets built — fast, mobile-first, and structured for SEO from the start. You get progress updates, not radio silence until launch day.',
+      "The site gets built — fast, mobile-first, and structured for SEO from the start. You'll get progress check-ins with a live preview link as milestones are hit, so you can see the site taking shape rather than waiting for a single reveal at the end.",
   },
   {
     icon: 'IconBolt',
@@ -31,7 +32,7 @@ const steps = [
     icon: 'IconMessage',
     title: 'Support',
     description:
-      "Post-launch support for fixes and small updates, so you're not on your own the moment the site goes live.",
+      'Post-launch support covers fixes and small updates — broken links, content tweaks, styling issues you spot after launch. Anything bigger, like new pages or a redesign, gets scoped as its own project rather than folded in as an afterthought.',
   },
 ];
 ---
@@ -68,12 +69,7 @@ const steps = [
 
     <div class="mt-12 flex flex-col items-start gap-4 rounded-2xl bg-teal-light p-8 sm:flex-row sm:items-center sm:justify-between sm:p-10">
       <p class="text-teal-deep">Ready to start with Discovery?</p>
-      <a
-        href="/contact"
-        class="inline-flex items-center justify-center rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
-      >
-        Get a Free Quote
-      </a>
+      <Button href="/contact">Get a Free Quote</Button>
     </div>
   </section>
 </BaseLayout>

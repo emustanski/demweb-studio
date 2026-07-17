@@ -1,16 +1,22 @@
 ---
 import Icon from './Icon.astro';
 import lighthouseScore from '../data/lighthouse-score.json';
+import { formatAbsoluteDate } from '../lib/formatDate';
 
 // The score is written by the Lighthouse CI GitHub Action on each deploy
 // (see .github/workflows/lighthouse.yml), never fetched live in the browser —
 // a live PageSpeed API call would add the exact third-party latency this
-// badge is claiming not to have (CLAUDE.md Section 5).
-const speedLabel =
-  typeof lighthouseScore.score === 'number' ? `Built for speed — ${lighthouseScore.score}/100` : 'Built for speed';
+// badge is claiming not to have (CLAUDE.md Section 5). The "Checked ..."
+// sub-line proves it's a real periodic measurement rather than a hardcoded
+// number: the absolute date is baked in at build time (always correct), and
+// the inline script below upgrades it to relative phrasing ("Checked today")
+// against the visitor's own clock — pure client-side date math on an
+// already-static value, not a live network call.
+const hasScore = typeof lighthouseScore.score === 'number';
+const speedLabel = hasScore ? `Built for speed — ${lighthouseScore.score}/100` : 'Built for speed';
+const checkedDate = hasScore && lighthouseScore.updatedAt ? formatAbsoluteDate(lighthouseScore.updatedAt) : null;
 
 const items = [
-  { icon: 'IconBolt', label: speedLabel },
   { icon: 'IconSearch', label: 'SEO-first build' },
   { icon: 'IconWorld', label: 'Multilingual-ready' },
 ];
@@ -18,6 +24,22 @@ const items = [
 
 <div class="border-y border-border bg-card">
   <div class="mx-auto grid max-w-6xl grid-cols-1 divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+    <div class="flex items-center justify-center gap-3 px-4 py-6">
+      <Icon name="IconBolt" class="size-5 shrink-0 text-teal" />
+      <div class="flex flex-col items-start">
+        <span class="text-sm font-medium text-ink">{speedLabel}</span>
+        {
+          checkedDate && (
+            <span class="flex items-center gap-1 text-xs text-ink-muted">
+              <Icon name="IconRefresh" class="size-3" />
+              <time datetime={lighthouseScore.updatedAt} data-checked-date>
+                Checked {checkedDate}
+              </time>
+            </span>
+          )
+        }
+      </div>
+    </div>
     {
       items.map((item) => (
         <div class="flex items-center justify-center gap-3 px-4 py-6">
@@ -28,3 +50,27 @@ const items = [
     }
   </div>
 </div>
+
+<script>
+  const timeEl = document.querySelector<HTMLTimeElement>('[data-checked-date]');
+  const iso = timeEl?.getAttribute('datetime');
+
+  if (timeEl && iso) {
+    const diffDays = Math.floor((Date.now() - new Date(iso).getTime()) / (1000 * 60 * 60 * 24));
+
+    let relative: string | null = null;
+    if (diffDays <= 0) relative = 'today';
+    else if (diffDays === 1) relative = 'yesterday';
+    else if (diffDays < 7) relative = `${diffDays} days ago`;
+    else if (diffDays < 30) {
+      const weeks = Math.floor(diffDays / 7);
+      relative = `${weeks} week${weeks === 1 ? '' : 's'} ago`;
+    }
+    // 30+ days: leave the server-rendered absolute date in place rather than
+    // showing a stale-looking "2 months ago" next to a speed claim.
+
+    if (relative) {
+      timeEl.textContent = `Checked ${relative}`;
+    }
+  }
+</script>

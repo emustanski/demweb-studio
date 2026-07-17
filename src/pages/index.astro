@@ -7,6 +7,7 @@ import ServiceListItem from '../components/ServiceListItem.astro';
 import ReassuranceBanner from '../components/ReassuranceBanner.astro';
 import PortfolioCard from '../components/PortfolioCard.astro';
 import ReviewsSection from '../components/ReviewsSection.astro';
+import Button from '../components/Button.astro';
 import { SITE } from '../lib/site';
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -21,22 +22,12 @@ const featuredWork = (await getCollection('portfolio')).filter((entry) => entry.
           Websites that load fast and get found.
         </h1>
         <p class="mt-5 text-lg text-ink-secondary">
-          DEMWeb Studio builds fast, SEO-first websites for small businesses and freelancers — from a first launch
-          site to a full redesign.
+          Most small business websites are slow, generic, and hard to find in search. DEMWeb Studio builds ones that
+          aren't — fast, SEO-first, and built around your business, from a first launch site to a full redesign.
         </p>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="/contact?interested=Full+SEO+Audit"
-            class="inline-flex items-center justify-center rounded-lg border border-border bg-card px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-teal hover:text-teal"
-          >
-            Get a Free 5-Point Site Check
-          </a>
-          <a
-            href="/contact"
-            class="inline-flex items-center justify-center rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
-          >
-            Get a Free Quote
-          </a>
+          <Button href="/contact?interested=Full+SEO+Audit" variant="secondary">Get a Free 5-Point Site Check</Button>
+          <Button href="/contact">Get a Free Quote</Button>
         </div>
       </div>
       <div class="mx-auto w-full max-w-md lg:mx-0">

@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Button from './Button.astro';
 
 interface Props {
   icon: string;
@@ -50,11 +51,6 @@ const { icon, title, slug, priceLabel, summary, whatsIncluded, popular = false }
 
   <div class="mt-6 flex flex-col items-start gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
     <span class="text-base font-medium text-ink-muted">{priceLabel}</span>
-    <a
-      href={`/contact?interested=${encodeURIComponent(title)}`}
-      class="rounded-lg bg-teal px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
-    >
-      Get a Free Quote
-    </a>
+    <Button href={`/contact?interested=${encodeURIComponent(title)}`} size="sm">Get a Free Quote</Button>
   </div>
 </div>

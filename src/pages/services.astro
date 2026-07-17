@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
-import ReassuranceBanner from '../components/ReassuranceBanner.astro';
+import Button from '../components/Button.astro';
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -35,28 +35,14 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
       }
     </div>
 
-    <div class="mt-8">
-      <ReassuranceBanner />
-    </div>
-
     <div class="mt-16 flex flex-col items-center gap-4 rounded-2xl border border-border bg-card p-10 text-center">
-      <h2 class="text-2xl font-medium text-ink">Not sure where to start?</h2>
+      <h2 class="text-2xl font-medium text-ink">Existing site, or starting from scratch?</h2>
       <p class="max-w-md text-sm text-ink-secondary">
         If you already have a site, start with a free check. If you're building from scratch, get a free quote.
       </p>
       <div class="flex flex-col gap-3 sm:flex-row">
-        <a
-          href="/contact?interested=Full+SEO+Audit"
-          class="inline-flex items-center justify-center rounded-lg border border-border bg-card px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-teal hover:text-teal"
-        >
-          Get a Free 5-Point Site Check
-        </a>
-        <a
-          href="/contact"
-          class="inline-flex items-center justify-center rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
-        >
-          Get a Free Quote
-        </a>
+        <Button href="/contact?interested=Full+SEO+Audit" variant="secondary">Get a Free 5-Point Site Check</Button>
+        <Button href="/contact">Get a Free Quote</Button>
       </div>
     </div>
   </section>

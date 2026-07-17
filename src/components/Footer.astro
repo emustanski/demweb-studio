@@ -1,5 +1,6 @@
 ---
 import { FOOTER_LINKS, LEGAL_LINKS, SITE } from '../lib/site';
+import Button from './Button.astro';
 
 const year = new Date().getFullYear();
 ---
@@ -13,12 +14,7 @@ const year = new Date().getFullYear();
           Get a free quote, or a free 5-point check if you already have a site.
         </p>
       </div>
-      <a
-        href="/contact"
-        class="inline-block shrink-0 rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover"
-      >
-        Get a Free Quote
-      </a>
+      <Button href="/contact" class="shrink-0">Get a Free Quote</Button>
     </div>
 
     <div class="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4">

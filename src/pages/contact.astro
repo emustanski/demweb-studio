@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
 import { SITE } from '../lib/site';
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
@@ -34,8 +35,10 @@ const interestOptions = [
             name="name"
             required
             autocomplete="name"
+            aria-describedby="name-error"
             class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
           />
+          <p id="name-error" class="mt-1 text-sm text-red-600" role="alert"></p>
         </div>
         <div>
           <label for="email" class="block text-sm font-medium text-ink">Email</label>
@@ -45,8 +48,10 @@ const interestOptions = [
             name="email"
             required
             autocomplete="email"
+            aria-describedby="email-error"
             class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
           />
+          <p id="email-error" class="mt-1 text-sm text-red-600" role="alert"></p>
         </div>
       </div>
 
@@ -68,18 +73,15 @@ const interestOptions = [
           name="message"
           required
           rows="5"
+          aria-describedby="message-error"
           class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
         ></textarea>
+        <p id="message-error" class="mt-1 text-sm text-red-600" role="alert"></p>
       </div>
 
       <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
 
-      <button
-        type="submit"
-        class="w-full rounded-lg bg-teal px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-hover disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-      >
-        Send message
-      </button>
+      <Button type="submit" class="w-full sm:w-auto">Send message</Button>
 
       <p id="form-status" class="text-sm" role="status" aria-live="polite"></p>
     </form>
@@ -91,6 +93,9 @@ const interestOptions = [
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const status = document.getElementById('form-status');
     const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    const nameInput = document.getElementById('name') as HTMLInputElement | null;
+    const emailInput = document.getElementById('email') as HTMLInputElement | null;
+    const messageInput = document.getElementById('message') as HTMLTextAreaElement | null;
 
     // Pre-fill "Interested in" from the CTA that linked here, e.g. /contact?interested=Full+SEO+Audit
     const params = new URLSearchParams(window.location.search);
@@ -101,9 +106,33 @@ const interestOptions = [
       if (match) interestedSelect.value = interested;
     }
 
+    // The form has novalidate (suppresses native inline validation UI), but the
+    // constraint validation API — checkValidity() — still works. This drives our
+    // own field-level messaging instead, so a missing/invalid field points at
+    // the actual input rather than only surfacing in the single #form-status line.
+    function validateField(input: HTMLInputElement | HTMLTextAreaElement | null, requiredMessage: string, invalidMessage?: string): boolean {
+      if (!input) return true;
+      const errorEl = document.getElementById(`${input.id}-error`);
+      const valid = input.checkValidity();
+      input.setAttribute('aria-invalid', valid ? 'false' : 'true');
+      if (errorEl) {
+        errorEl.textContent = valid ? '' : input.validity.valueMissing ? requiredMessage : (invalidMessage ?? input.validationMessage);
+      }
+      return valid;
+    }
+
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!status || !submitButton) return;
+
+      const nameValid = validateField(nameInput, 'Please enter your name.');
+      const emailValid = validateField(emailInput, 'Please enter your email address.', 'Please enter a valid email address.');
+      const messageValid = validateField(messageInput, 'Please enter a message.');
+
+      if (!nameValid || !emailValid || !messageValid) {
+        (!nameValid ? nameInput : !emailValid ? emailInput : messageInput)?.focus();
+        return;
+      }
 
       const formData = new FormData(form);
       const turnstileToken = formData.get('cf-turnstile-response');
@@ -132,7 +161,14 @@ const interestOptions = [
         });
 
         if (!response.ok) {
-          const { error } = await response.json().catch(() => ({ error: 'Something went wrong.' }));
+          const { error, field } = await response.json().catch(() => ({ error: 'Something went wrong.', field: undefined }));
+          if (field) {
+            const errorEl = document.getElementById(`${field}-error`);
+            const fieldInput = document.getElementById(field) as HTMLInputElement | HTMLTextAreaElement | null;
+            if (errorEl) errorEl.textContent = error ?? 'This field needs attention.';
+            fieldInput?.setAttribute('aria-invalid', 'true');
+            fieldInput?.focus();
+          }
           throw new Error(error ?? 'Something went wrong.');
         }
 
