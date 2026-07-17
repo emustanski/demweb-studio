@@ -11,7 +11,10 @@ import Button from '../components/Button.astro';
 import { SITE } from '../lib/site';
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
-const featuredWork = (await getCollection('portfolio')).filter((entry) => entry.data.featured).slice(0, 3);
+const featuredWork = (await getCollection('portfolio'))
+  .filter((entry) => entry.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
 ---
 
 <BaseLayout title={SITE.name} description={SITE.description}>

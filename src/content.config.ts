@@ -33,6 +33,7 @@ const portfolio = defineCollection({
     image: z.string().optional(),
     tags: z.array(z.string()),
     featured: z.boolean().default(false),
+    order: z.number(),
   }),
 });
 

@@ -7,6 +7,7 @@ approach: "Built as a 6-page CMS-ready site using Astro content collections for 
 result: "A concept build demonstrating a full multi-page structure that stays as fast as a single-page site, with content editing handled through version-controlled Markdown rather than a heavyweight CMS."
 tags: ["Multi-Page", "CMS-Ready", "Fitness"]
 featured: true
+order: 2
 ---
 
 Once a site grows past a single page, this is what the Business tier of

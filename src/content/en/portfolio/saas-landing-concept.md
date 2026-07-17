@@ -7,6 +7,7 @@ approach: "Structured around a clear above-the-fold pitch, a benefits section wr
 result: "A concept build demonstrating a clean, fast-loading landing page pattern that keeps the call to action visible without relying on heavy animation or tracking scripts."
 tags: ["SaaS", "Landing Page", "Conversion"]
 featured: true
+order: 4
 ---
 
 The same lean, framework-driven approach used across DEMWeb Studio's own

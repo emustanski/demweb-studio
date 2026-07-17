@@ -7,6 +7,7 @@ approach: "Built as a single-page site with a mobile-first layout: hours and loc
 result: "A concept build demonstrating sub-second load times and a 95+ Lighthouse performance score, with local business schema markup ready for real search visibility from day one."
 tags: ["Small Business", "Single-Page", "Local SEO"]
 featured: true
+order: 3
 ---
 
 This is what the Starter tier of the Custom Website Build looks like in

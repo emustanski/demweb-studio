@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import TagPill from '../components/TagPill.astro';
 import PortfolioPlaceholderImage from '../components/PortfolioPlaceholderImage.astro';
 
-const projects = await getCollection('portfolio');
+const projects = (await getCollection('portfolio')).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout
@@ -12,12 +12,12 @@ const projects = await getCollection('portfolio');
   description="Case studies from DEMWeb Studio's self-built projects — the problems, the approach, and the results."
 >
   <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-    <div class="max-w-2xl">
+    <div class="mx-auto max-w-2xl text-center">
       <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Work</h1>
       <p class="mt-5 text-lg text-ink-secondary">
-        DEMWeb Studio is a new studio, so the projects below are self-built concept sites — framed as real case
-        studies, not a gallery — built to show how we approach a project from problem to result. Real client work
-        will replace these as it lands.
+        One of the projects below is this very site — real and currently live, not a concept. The rest are
+        self-built concept sites, framed as case studies rather than a gallery, showing how we approach a project
+        from problem to result. Real client work will replace the concepts as it lands.
       </p>
     </div>
 
@@ -25,7 +25,13 @@ const projects = await getCollection('portfolio');
       {
         projects.map(({ data }) => (
           <article id={data.slug} class="overflow-hidden rounded-2xl border border-border bg-card">
-            <PortfolioPlaceholderImage aspect="banner" />
+            {
+              data.image ? (
+                <img src={data.image} alt={data.title} class="aspect-[3/1] w-full object-cover" loading="lazy" />
+              ) : (
+                <PortfolioPlaceholderImage aspect="banner" />
+              )
+            }
             <div class="p-6 sm:p-10">
               <div class="flex flex-wrap items-center justify-between gap-3">
                 <h2 class="text-2xl font-medium text-ink">{data.title}</h2>
