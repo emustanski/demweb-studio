@@ -8,12 +8,14 @@ const projects = (await getCollection('portfolio')).sort((a, b) => a.data.order 
 ---
 
 <BaseLayout
-  title="Work"
+  title="Website Portfolio & Case Studies"
   description="Case studies from DEMWeb Studio's self-built projects — the problems, the approach, and the results."
 >
   <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
-      <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Work</h1>
+      <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">
+        Case Studies & Featured Work
+      </h1>
       <p class="mt-5 text-lg text-ink-secondary">
         One of the projects below is this very site — real and currently live, not a concept. The rest are
         self-built concept sites, framed as case studies rather than a gallery, showing how we approach a project
@@ -27,7 +29,12 @@ const projects = (await getCollection('portfolio')).sort((a, b) => a.data.order 
           <article id={data.slug} class="overflow-hidden rounded-2xl border border-border bg-card">
             {
               data.image ? (
-                <img src={data.image} alt={data.title} class="aspect-[3/1] w-full object-cover" loading="lazy" />
+                <img
+                  src={data.image}
+                  alt={`Screenshot of the ${data.title} website homepage`}
+                  class="aspect-[3/1] w-full object-cover"
+                  loading="lazy"
+                />
               ) : (
                 <PortfolioPlaceholderImage aspect="banner" />
               )

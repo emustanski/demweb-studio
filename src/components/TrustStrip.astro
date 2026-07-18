@@ -18,7 +18,7 @@ const checkedDate = hasScore && lighthouseScore.updatedAt ? formatAbsoluteDate(l
 
 const items = [
   { icon: 'IconSearch', label: 'SEO-first build' },
-  { icon: 'IconWorld', label: 'Multilingual-ready' },
+  { icon: 'IconDeviceMobile', label: 'Mobile-optimized' },
 ];
 ---
 
@@ -27,12 +27,27 @@ const items = [
     <div class="flex items-center justify-center gap-3 px-4 py-6">
       <Icon name="IconBolt" class="size-5 shrink-0 text-teal" />
       <div class="flex flex-col items-start">
-        <span class="text-sm font-medium text-ink">{speedLabel}</span>
+        <span class="flex items-center gap-1.5 text-sm font-medium text-ink">
+          {speedLabel}
+          {
+            hasScore && (
+              <span class="relative flex size-1.5" title="Score verified on the latest deploy">
+                <span class="motion-safe:absolute motion-safe:inline-flex motion-safe:size-full motion-safe:animate-ping motion-safe:rounded-full motion-safe:bg-teal/60" />
+                <span class="relative inline-flex size-1.5 rounded-full bg-teal" />
+              </span>
+            )
+          }
+        </span>
         {
           checkedDate && (
             <span class="flex items-center gap-1 text-xs text-ink-muted">
               <Icon name="IconRefresh" class="size-3" />
-              <time datetime={lighthouseScore.updatedAt} data-checked-date data-absolute-date={checkedDate}>
+              <time
+                datetime={lighthouseScore.updatedAt}
+                title={`Checked ${checkedDate}`}
+                data-checked-date
+                data-absolute-date={checkedDate}
+              >
                 Checked {checkedDate}
               </time>
             </span>
@@ -78,10 +93,11 @@ const items = [
     }
 
     if (relative) {
-      // Pair the relative phrase with the exact date so the freshness claim
-      // is immediately checkable, not just asserted — e.g. "Checked
-      // yesterday · 17 Jul 2026" rather than a bare "Checked yesterday".
-      timeEl.textContent = `Checked ${relative} · ${absolute}`;
+      // Short on-screen text ("Checked yesterday"), one line, so this item
+      // centers the same way as the other two trust-strip items. The exact
+      // date stays checkable via the native title tooltip (already set
+      // server-side to "Checked <absolute>") instead of being printed inline.
+      timeEl.textContent = `Checked ${relative}`;
     }
     // 30+ days old: leave the server-rendered "Checked 17 Jul 2026" as-is —
     // a bare, precise date reads better at that point than a vague

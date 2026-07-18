@@ -31,7 +31,7 @@ const faqs = [
   {
     question: 'Do you build with WordPress?',
     answer:
-      "No. Sites are hand-built with Astro, a modern framework that ships little to no JavaScript by default. That means faster load times and better SEO out of the box compared to a typical WordPress theme, without plugin bloat or constant security patching.",
+      "Not by default. WordPress can mean plugin bloat, constant security patching, and slower load times, so each project starts with the tech that actually fits its needs — often a modern, hand-built approach that ships little to no unnecessary JavaScript, for faster load times and better SEO out of the box. The exact tools are chosen per project, not fixed in advance.",
   },
   {
     question: 'What happens after my site launches?',
@@ -57,7 +57,7 @@ const faqs = [
 ---
 
 <BaseLayout
-  title="FAQ"
+  title="Website FAQs — Pricing, Timeline & Process"
   description="Answers to common questions about pricing, timelines, process, and what's included in a DEMWeb Studio project."
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema(faqs))} />

@@ -19,7 +19,12 @@ const { title, slug, summary, tags, image } = Astro.props;
 >
   {
     image ? (
-      <img src={image} alt={title} class="aspect-video w-full object-cover" loading="lazy" />
+      <img
+        src={image}
+        alt={`Screenshot of the ${title} website homepage`}
+        class="aspect-video w-full object-cover"
+        loading="lazy"
+      />
     ) : (
       <PortfolioPlaceholderImage aspect="video" />
     )

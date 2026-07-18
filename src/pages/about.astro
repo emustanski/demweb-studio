@@ -4,11 +4,13 @@ import Button from '../components/Button.astro';
 ---
 
 <BaseLayout
-  title="About"
-  description="DEMWeb Studio is a solo web design and SEO studio building fast, honest websites for small businesses and freelancers."
+  title="Website Design & Development Studio"
+  description="DEMWeb Studio is a solo web design and development studio building fast, honest websites for small businesses and freelancers."
 >
   <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-    <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">About DEMWeb Studio</h1>
+    <h1 class="text-center text-4xl font-medium tracking-tight text-ink sm:text-left sm:text-5xl">
+      About DEMWeb Studio
+    </h1>
 
     <div class="mt-8 space-y-6 text-lg text-ink-secondary">
       <p>
@@ -41,7 +43,9 @@ import Button from '../components/Button.astro';
       </a>
     </div>
 
-    <div class="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div
+      class="mt-12 flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left"
+    >
       <p class="text-ink-secondary">Have a project in mind?</p>
       <Button href="/contact">Get a Free Quote</Button>
     </div>
