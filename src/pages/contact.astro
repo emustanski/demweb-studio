@@ -36,6 +36,8 @@ const interestOptions = [
             id="name"
             name="name"
             required
+            minlength="2"
+            maxlength="100"
             autocomplete="name"
             aria-describedby="name-error"
             class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
@@ -49,6 +51,7 @@ const interestOptions = [
             id="email"
             name="email"
             required
+            maxlength="254"
             autocomplete="email"
             aria-describedby="email-error"
             class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
@@ -62,10 +65,12 @@ const interestOptions = [
         <select
           id="interested"
           name="interested"
+          aria-describedby="interested-error"
           class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
         >
           {interestOptions.map((option) => <option value={option}>{option}</option>)}
         </select>
+        <p id="interested-error" class="mt-1 text-sm text-red-600" role="alert"></p>
       </div>
 
       <div>
@@ -74,6 +79,8 @@ const interestOptions = [
           id="message"
           name="message"
           required
+          minlength="10"
+          maxlength="5000"
           rows="5"
           aria-describedby="message-error"
           class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
@@ -118,7 +125,14 @@ const interestOptions = [
       const valid = input.checkValidity();
       input.setAttribute('aria-invalid', valid ? 'false' : 'true');
       if (errorEl) {
-        errorEl.textContent = valid ? '' : input.validity.valueMissing ? requiredMessage : (invalidMessage ?? input.validationMessage);
+        let message = '';
+        if (!valid) {
+          if (input.validity.valueMissing) message = requiredMessage;
+          else if (input.validity.tooShort) message = `Please use at least ${input.minLength} characters.`;
+          else if (input.validity.tooLong) message = `Please keep this under ${input.maxLength} characters.`;
+          else message = invalidMessage ?? input.validationMessage;
+        }
+        errorEl.textContent = message;
       }
       return valid;
     }

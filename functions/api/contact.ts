@@ -29,11 +29,38 @@ interface PagesFunctionContext<E> {
   env: E;
 }
 
+// Keep in sync with the `interestOptions` array in src/pages/contact.astro —
+// functions/ can't import from src/ (separate build pipeline, see header).
+const INTEREST_OPTIONS = [
+  'Custom Website Build',
+  'Website Redesign',
+  'Performance / Speed Optimization',
+  'Full SEO Audit',
+  'Other',
+];
+
+// Keep in sync with the minlength/maxlength attributes on the form fields in
+// src/pages/contact.astro, same cross-pipeline reason as INTEREST_OPTIONS.
+const NAME_MIN = 2;
+const NAME_MAX = 100;
+const EMAIL_MAX = 254; // RFC 5321's hard limit on total email address length
+const MESSAGE_MIN = 10;
+const MESSAGE_MAX = 5000;
+
 const jsonResponse = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
     headers: { 'Content-Type': 'application/json' },
   });
+
+// Strips CR/LF so user input can never smuggle extra headers into the
+// outgoing email ("email header injection") — used only on fields that get
+// interpolated into a Subject line, not the email body, where newlines are
+// legitimate. The email regex below already rejects embedded newlines on its
+// own (they're whitespace), so this is only needed for name/interested.
+function sanitizeForHeader(value: string): string {
+  return value.replace(/[\r\n]+/g, ' ').trim();
+}
 
 async function verifyTurnstile(token: string, secret: string, remoteIp: string | null): Promise<boolean> {
   const formData = new URLSearchParams();
@@ -50,49 +77,81 @@ async function verifyTurnstile(token: string, secret: string, remoteIp: string |
 }
 
 export async function onRequestPost({ request, env }: PagesFunctionContext<Env>): Promise<Response> {
-  let payload: Partial<ContactPayload>;
+  // Parsed JSON is `unknown` per-field at runtime regardless of what the type
+  // annotation below claims — a request built by hand (not through the form)
+  // could send any shape at all, so every field is type-checked before any
+  // string method is called on it.
+  let payload: Partial<Record<keyof ContactPayload, unknown>>;
   try {
     payload = await request.json();
   } catch {
     return jsonResponse({ error: 'Invalid request body.' }, 400);
   }
 
-  const { name, email, interested, message, turnstileToken } = payload;
+  const rawTurnstileToken = payload.turnstileToken;
+  const name = typeof payload.name === 'string' ? payload.name.trim() : '';
+  const email = typeof payload.email === 'string' ? payload.email.trim() : '';
+  const interested = typeof payload.interested === 'string' ? payload.interested.trim() : '';
+  const message = typeof payload.message === 'string' ? payload.message.trim() : '';
 
-  // Returns which field is at fault, not just a generic message — lets the
-  // client point at the actual input even if a request bypasses client-side
-  // validation entirely (e.g. a direct API call).
-  if (!name?.trim()) {
+  // Each check returns which field is at fault, not just a generic message —
+  // lets the client point at the actual input even if a request bypasses
+  // client-side validation entirely (e.g. a direct API call).
+  if (!name) {
     return jsonResponse({ error: 'Please enter your name.', field: 'name' }, 400);
   }
-  if (!email?.trim()) {
-    return jsonResponse({ error: 'Please enter your email address.', field: 'email' }, 400);
+  if (name.length < NAME_MIN) {
+    return jsonResponse({ error: `Your name must be at least ${NAME_MIN} characters.`, field: 'name' }, 400);
   }
-  if (!message?.trim()) {
-    return jsonResponse({ error: 'Please enter a message.', field: 'message' }, 400);
-  }
-  if (!turnstileToken) {
-    return jsonResponse({ error: 'Missing spam check token.' }, 400);
+  if (name.length > NAME_MAX) {
+    return jsonResponse({ error: `Please keep your name under ${NAME_MAX} characters.`, field: 'name' }, 400);
   }
 
+  if (!email) {
+    return jsonResponse({ error: 'Please enter your email address.', field: 'email' }, 400);
+  }
+  if (email.length > EMAIL_MAX) {
+    return jsonResponse({ error: `Please keep your email under ${EMAIL_MAX} characters.`, field: 'email' }, 400);
+  }
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
     return jsonResponse({ error: 'Please enter a valid email address.', field: 'email' }, 400);
   }
 
+  if (interested && !INTEREST_OPTIONS.includes(interested)) {
+    return jsonResponse({ error: 'Please choose a valid option for "Interested in".', field: 'interested' }, 400);
+  }
+
+  if (!message) {
+    return jsonResponse({ error: 'Please enter a message.', field: 'message' }, 400);
+  }
+  if (message.length < MESSAGE_MIN) {
+    return jsonResponse({ error: `Please enter at least ${MESSAGE_MIN} characters.`, field: 'message' }, 400);
+  }
+  if (message.length > MESSAGE_MAX) {
+    return jsonResponse({ error: `Please keep your message under ${MESSAGE_MAX} characters.`, field: 'message' }, 400);
+  }
+
+  if (!rawTurnstileToken || typeof rawTurnstileToken !== 'string') {
+    return jsonResponse({ error: 'Missing spam check token.' }, 400);
+  }
+
   const remoteIp = request.headers.get('CF-Connecting-IP');
-  const turnstileOk = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY, remoteIp);
+  const turnstileOk = await verifyTurnstile(rawTurnstileToken, env.TURNSTILE_SECRET_KEY, remoteIp);
   if (!turnstileOk) {
     return jsonResponse({ error: 'Spam check failed. Please try again.' }, 400);
   }
+
+  const safeName = sanitizeForHeader(name);
+  const safeInterested = sanitizeForHeader(interested);
 
   const resend = new Resend(env.RESEND_API_KEY);
   const { error } = await resend.emails.send({
     from: env.RESEND_FROM_EMAIL,
     to: env.RESEND_TO_EMAIL,
     replyTo: email,
-    subject: `New enquiry: ${interested?.trim() || 'General'} — ${name}`,
-    text: `Name: ${name}\nEmail: ${email}\nInterested in: ${interested?.trim() || 'Not specified'}\n\n${message}`,
+    subject: `New enquiry: ${safeInterested || 'General'} — ${safeName}`,
+    text: `Name: ${name}\nEmail: ${email}\nInterested in: ${interested || 'Not specified'}\n\n${message}`,
   });
 
   if (error) {
@@ -108,7 +167,7 @@ export async function onRequestPost({ request, env }: PagesFunctionContext<Env>)
     to: email,
     replyTo: env.RESEND_TO_EMAIL,
     subject: "We've got your message — DEMWeb Studio",
-    text: `Hi ${name},\n\nThanks for reaching out to DEMWeb Studio — this confirms we've received your message and will reply within one business day.\n\nFor your records, here's what you sent:\n\nInterested in: ${interested?.trim() || 'Not specified'}\nMessage: ${message}\n\nIf anything's missing or you want to add something, just reply directly to this email.\n\nTalk soon,\nDEMWeb Studio`,
+    text: `Hi ${name},\n\nThanks for reaching out to DEMWeb Studio — this confirms we've received your message and will reply within one business day.\n\nFor your records, here's what you sent:\n\nInterested in: ${interested || 'Not specified'}\nMessage: ${message}\n\nIf anything's missing or you want to add something, just reply directly to this email.\n\nTalk soon,\nDEMWeb Studio`,
   });
 
   if (confirmationError) {
