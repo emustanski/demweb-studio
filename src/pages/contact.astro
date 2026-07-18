@@ -137,6 +137,29 @@ const interestOptions = [
       return valid;
     }
 
+    // Once a field has shown an error, keep its message live as the visitor
+    // edits it — otherwise the text freezes at whatever was true on the last
+    // submit click (e.g. still saying "required" after they've typed
+    // something, just in the wrong format) instead of reflecting what's
+    // actually in the field right now.
+    function attachLiveRevalidation(
+      input: HTMLInputElement | HTMLTextAreaElement | null,
+      requiredMessage: string,
+      invalidMessage?: string,
+    ) {
+      if (!input) return;
+      input.addEventListener('input', () => {
+        const errorEl = document.getElementById(`${input.id}-error`);
+        if (errorEl?.textContent) {
+          validateField(input, requiredMessage, invalidMessage);
+        }
+      });
+    }
+
+    attachLiveRevalidation(nameInput, 'Please enter your name.');
+    attachLiveRevalidation(emailInput, 'Please enter your email address.', 'Please enter a valid email address.');
+    attachLiveRevalidation(messageInput, 'Please enter a message.');
+
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!status || !submitButton) return;

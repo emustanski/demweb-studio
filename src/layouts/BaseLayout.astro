@@ -24,7 +24,7 @@ const { title, description, ogImage = '/og-image.svg', noindex = false } = Astro
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
-const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
+const pageTitle = title === SITE.name || title.startsWith(`${SITE.name} `) ? title : `${title} | ${SITE.name}`;
 ---
 
 <!doctype html>
@@ -33,6 +33,7 @@ const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonicalURL} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
