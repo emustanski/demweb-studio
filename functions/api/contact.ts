@@ -99,5 +99,21 @@ export async function onRequestPost({ request, env }: PagesFunctionContext<Env>)
     return jsonResponse({ error: 'Could not send message. Please try again later.' }, 502);
   }
 
+  // Best-effort confirmation to the visitor — the enquiry itself already
+  // succeeded above, so a failure here shouldn't turn into a user-facing
+  // error. replyTo points back at the studio inbox, not this automated
+  // address, so hitting "reply" reaches a real person.
+  const { error: confirmationError } = await resend.emails.send({
+    from: env.RESEND_FROM_EMAIL,
+    to: email,
+    replyTo: env.RESEND_TO_EMAIL,
+    subject: "We've got your message — DEMWeb Studio",
+    text: `Hi ${name},\n\nThanks for reaching out to DEMWeb Studio — this confirms we've received your message and will reply within one business day.\n\nFor your records, here's what you sent:\n\nInterested in: ${interested?.trim() || 'Not specified'}\nMessage: ${message}\n\nIf anything's missing or you want to add something, just reply directly to this email.\n\nTalk soon,\nDEMWeb Studio`,
+  });
+
+  if (confirmationError) {
+    console.error('Confirmation email failed to send:', confirmationError);
+  }
+
   return jsonResponse({ success: true });
 }
