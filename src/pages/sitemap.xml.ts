@@ -19,7 +19,7 @@ const ROUTES = [
 ];
 
 export const GET: APIRoute = ({ site }) => {
-  const baseUrl = site ?? new URL('https://demweb-studio.pages.dev');
+  const baseUrl = site ?? new URL('https://demwebstudio.com');
 
   const urls = ROUTES.map((path) => {
     const loc = new URL(path, baseUrl).toString();

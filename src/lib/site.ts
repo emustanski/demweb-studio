@@ -8,7 +8,7 @@ export const SITE = {
   tagline: 'Fast, SEO-first websites for small businesses and freelancers',
   description:
     'DEMWeb Studio designs and builds fast, SEO-first websites for small businesses and freelancers — custom builds, redesigns, performance optimization, and SEO audits.',
-  url: 'https://demweb-studio.pages.dev',
+  url: 'https://demwebstudio.com',
   email: 'emustanski@gmail.com',
 } as const;
 

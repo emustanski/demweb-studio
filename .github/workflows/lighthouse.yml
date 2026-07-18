@@ -51,7 +51,9 @@ jobs:
         id: lighthouse
         uses: treosh/lighthouse-ci-action@v11
         with:
-          urls: ${{ steps.deploy.outputs.url }}
+          # The real production domain, not steps.deploy.outputs.url — that's
+          # a per-deployment preview subdomain, not what visitors actually use.
+          urls: https://demwebstudio.com
           uploadArtifacts: true
           temporaryPublicStorage: true
 

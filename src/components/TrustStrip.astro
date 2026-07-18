@@ -32,7 +32,7 @@ const items = [
           checkedDate && (
             <span class="flex items-center gap-1 text-xs text-ink-muted">
               <Icon name="IconRefresh" class="size-3" />
-              <time datetime={lighthouseScore.updatedAt} data-checked-date>
+              <time datetime={lighthouseScore.updatedAt} data-checked-date data-absolute-date={checkedDate}>
                 Checked {checkedDate}
               </time>
             </span>
@@ -54,9 +54,19 @@ const items = [
 <script>
   const timeEl = document.querySelector<HTMLTimeElement>('[data-checked-date]');
   const iso = timeEl?.getAttribute('datetime');
+  const absolute = timeEl?.getAttribute('data-absolute-date');
 
-  if (timeEl && iso) {
-    const diffDays = Math.floor((Date.now() - new Date(iso).getTime()) / (1000 * 60 * 60 * 24));
+  if (timeEl && iso && absolute) {
+    const checked = new Date(iso);
+    const now = new Date();
+
+    // Compare calendar dates (local midnight to midnight), not raw elapsed
+    // hours — otherwise anything under 24h old shows "today" even if it
+    // actually happened yesterday and just crossed midnight since. Math.round
+    // (not floor) guards against DST transition days being 23/25 hours long.
+    const checkedMidnight = new Date(checked.getFullYear(), checked.getMonth(), checked.getDate());
+    const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diffDays = Math.round((nowMidnight.getTime() - checkedMidnight.getTime()) / (1000 * 60 * 60 * 24));
 
     let relative: string | null = null;
     if (diffDays <= 0) relative = 'today';
@@ -66,11 +76,15 @@ const items = [
       const weeks = Math.floor(diffDays / 7);
       relative = `${weeks} week${weeks === 1 ? '' : 's'} ago`;
     }
-    // 30+ days: leave the server-rendered absolute date in place rather than
-    // showing a stale-looking "2 months ago" next to a speed claim.
 
     if (relative) {
-      timeEl.textContent = `Checked ${relative}`;
+      // Pair the relative phrase with the exact date so the freshness claim
+      // is immediately checkable, not just asserted — e.g. "Checked
+      // yesterday · 17 Jul 2026" rather than a bare "Checked yesterday".
+      timeEl.textContent = `Checked ${relative} · ${absolute}`;
     }
+    // 30+ days old: leave the server-rendered "Checked 17 Jul 2026" as-is —
+    // a bare, precise date reads better at that point than a vague
+    // "2 months ago" sitting next to a speed claim.
   }
 </script>

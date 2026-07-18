@@ -3,8 +3,7 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-// TODO: swap to `https://demwebstudio.com` once the domain is live (see CLAUDE.md Section 1 & 3)
-const SITE_URL = 'https://demweb-studio.pages.dev';
+const SITE_URL = 'https://demwebstudio.com';
 
 // https://astro.build/config
 export default defineConfig({
