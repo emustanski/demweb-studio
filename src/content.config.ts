@@ -31,7 +31,15 @@ const portfolio = defineCollection({
     approach: z.string(),
     result: z.string(),
     image: z.string().optional(),
-    tags: z.array(z.string()),
+    // Three standardized, named fields (not a freeform tags array) — every
+    // portfolio entry, including future real client work, states the same
+    // three things in the same order: what kind of site it is, its SEO/
+    // strategic focus, and a concrete performance highlight. Mirrors the
+    // homepage trust strip's three pillars (speed / SEO / mobile) on
+    // purpose, so each project reads as proof of the same promises.
+    siteType: z.string(),
+    focus: z.string(),
+    performance: z.string(),
     featured: z.boolean().default(false),
     order: z.number(),
   }),

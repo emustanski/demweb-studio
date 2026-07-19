@@ -6,7 +6,9 @@ problem: "A brand-new studio has no client work to point to yet, and a slick moc
 approach: "Built and deployed exactly like a client project would be: static-first output shipping close to zero JavaScript, self-hosted fonts with no Google Fonts CDN, Cloudflare Pages hosting, a working contact form backed by Turnstile spam protection and Resend delivery, and a Lighthouse CI pipeline that publishes a real, dated performance score on every deploy instead of a one-time claim. The specific tools are chosen per project — this is simply what fit this one."
 result: "A live, publicly checkable result — the 'Built for speed' badge in the trust strip above isn't a hardcoded number, it's this exact site's real score, refreshed on every deploy and timestamped so you can see exactly when it was last checked."
 image: "/portfolio/demweb-studio-site.png"
-tags: ["Live Site", "Zero-JS", "Studio Site"]
+siteType: "Live Site"
+focus: "SEO-First Build"
+performance: "Zero-JS"
 featured: true
 order: 1
 ---

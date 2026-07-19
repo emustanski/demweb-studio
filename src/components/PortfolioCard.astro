@@ -6,16 +6,18 @@ interface Props {
   title: string;
   slug: string;
   summary: string;
-  tags: string[];
+  siteType: string;
+  focus: string;
+  performance: string;
   image?: string;
 }
 
-const { title, slug, summary, tags, image } = Astro.props;
+const { title, slug, summary, siteType, focus, performance, image } = Astro.props;
 ---
 
 <a
   href={`/portfolio#${slug}`}
-  class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-lg hover:shadow-ink/5"
+  class="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-lg hover:shadow-ink/5"
 >
   {
     image ? (
@@ -30,10 +32,12 @@ const { title, slug, summary, tags, image } = Astro.props;
     )
   }
   <div class="flex flex-1 flex-col p-6">
-    <h3 class="text-lg font-medium text-ink transition-colors group-hover:text-teal">{title}</h3>
-    <p class="mt-2 text-sm text-ink-secondary">{summary}</p>
-    <div class="mt-4 flex flex-wrap gap-2">
-      {tags.map((tag) => <TagPill tag={tag} />)}
+    <h3 class="line-clamp-1 text-lg font-medium text-ink transition-colors group-hover:text-teal">{title}</h3>
+    <p class="mt-2 line-clamp-3 text-sm text-ink-secondary">{summary}</p>
+    <div class="mt-auto flex flex-wrap gap-2 pt-4">
+      <TagPill icon="IconCode" label={siteType} />
+      <TagPill icon="IconSearch" label={focus} />
+      <TagPill icon="IconBolt" label={performance} />
     </div>
   </div>
 </a>

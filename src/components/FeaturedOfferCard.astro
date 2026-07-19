@@ -1,0 +1,80 @@
+---
+// Flagship offer, shown on the homepage under the compact services list —
+// additive, not a replacement for it. Everything listed here is something
+// already actually delivered (matches the real Custom Website Build service
+// data plus the hosting/SSL/email setup this studio's own site was launched
+// with), not aspirational scope.
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+
+const designFeatures = [
+  'Custom design, built around your business — never a template',
+  'Mobile-first, responsive on every device',
+  'Fast, clean code — no bloated page-builder plugins',
+  'On-page SEO tailored to your business, not a generic checklist',
+  'Accessible, WCAG-conscious build',
+  'CMS-ready with blog setup, so you can add content yourself',
+];
+
+const launchFeatures = [
+  'Hosting and SSL security set up and configured',
+  'Custom email on your own domain (e.g. hello@yourbusiness.com)',
+  'Spam-protected contact form, ready to receive enquiries',
+  'One full revision round included',
+  'Post-launch support included',
+];
+---
+
+<div class="rounded-2xl border-2 border-teal bg-card p-6 sm:p-9">
+  <div class="flex flex-wrap items-center gap-2">
+    <span class="inline-block rounded-full bg-amber-badge-bg px-3 py-1 text-xs font-medium text-amber-badge-text">
+      Most popular
+    </span>
+    <span class="inline-block rounded-full bg-teal px-3.5 py-1.5 text-xs font-medium text-white">
+      Limited Pricing
+    </span>
+  </div>
+  <h3 class="mt-3 text-xl font-medium text-ink sm:text-2xl">Custom Website Build</h3>
+  <p class="mt-2 max-w-2xl text-sm text-ink-secondary">
+    A complete, custom-built website — designed and built around your business, your goals, and how your customers
+    actually find you. Not a template, not a one-size-fits-all package. Everything needed to go from nothing to
+    fully launched.
+  </p>
+
+  <p class="mt-6 text-xs font-medium uppercase tracking-wide text-ink-muted">Design &amp; build</p>
+  <ul class="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-x-6">
+    {
+      designFeatures.map((feature) => (
+        <li class="flex items-start gap-2 text-sm text-ink-secondary">
+          <Icon name="IconCheck" class="mt-0.5 size-4 shrink-0 text-teal" />
+          {feature}
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mt-5 text-xs font-medium uppercase tracking-wide text-ink-muted">Launch &amp; beyond</p>
+  <ul class="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-x-6">
+    {
+      launchFeatures.map((feature) => (
+        <li class="flex items-start gap-2 text-sm text-ink-secondary">
+          <Icon name="IconCheck" class="mt-0.5 size-4 shrink-0 text-teal" />
+          {feature}
+        </li>
+      ))
+    }
+  </ul>
+
+  <div
+    class="mt-7 flex flex-col items-start gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <p class="flex flex-wrap items-baseline gap-2">
+        <span class="text-lg text-ink-muted line-through">From €1,300</span>
+        <span class="text-3xl font-medium text-teal">From €800</span>
+      </p>
+      <p class="mt-1 text-xs text-ink-muted">Simpler single-page builds start from €500 — see all options above.</p>
+    </div>
+    <Button href="/contact?interested=Custom+Website+Build">Get a Free Quote</Button>
+  </div>
+</div>

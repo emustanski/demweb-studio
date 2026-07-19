@@ -1,0 +1,57 @@
+---
+// Condensed homepage version of the full 5-step process on /process —
+// same real steps, shortened to one line each. Nothing merged or cut.
+import Icon from './Icon.astro';
+
+const steps = [
+  {
+    icon: 'IconSearch',
+    title: 'Discovery',
+    description:
+      'A short conversation about your business and goals — sets scope and price. You get a first concept within 48 hours.',
+  },
+  {
+    icon: 'IconCode',
+    title: 'Design',
+    description: 'A layout and content plan mapped out before any code gets written. You approve the direction first.',
+  },
+  {
+    icon: 'IconRocket',
+    title: 'Build',
+    description: 'Built fast, mobile-first, and structured for SEO from day one, with progress previews along the way.',
+  },
+  {
+    icon: 'IconBolt',
+    title: 'Launch',
+    description: 'Final checks and go-live. Domain, hosting, and analytics set up so the site is fully yours.',
+  },
+  {
+    icon: 'IconMessage',
+    title: 'Support',
+    description: "Post-launch fixes and small updates covered, so you're not on your own after launch.",
+  },
+];
+---
+
+<section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="flex items-end justify-between gap-4">
+    <h2 class="text-2xl font-medium text-ink sm:text-3xl">How we work</h2>
+    <a href="/process" class="text-sm font-medium text-teal hover:underline">See the full process</a>
+  </div>
+  <ol class="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+    {
+      steps.map((step, index) => (
+        <li>
+          <span class="text-4xl font-medium text-teal/20" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <div class="mt-2 flex items-center gap-2">
+            <Icon name={step.icon} class="size-4 text-teal" />
+            <p class="text-base font-medium text-ink">{step.title}</p>
+          </div>
+          <p class="mt-2 text-sm text-ink-secondary">{step.description}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>

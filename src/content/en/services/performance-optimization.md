@@ -11,6 +11,8 @@ whatsIncluded:
   - "Image compression and modern format conversion"
   - "Caching, font-loading, and render-blocking resource fixes"
   - "Before/after performance report"
+  - "Structured data and technical SEO left untouched or improved, never broken by the optimization work"
+  - "One round of re-testing included after fixes ship, to confirm the gains actually landed"
 order: 3
 ---
 

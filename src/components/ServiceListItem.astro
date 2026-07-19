@@ -14,7 +14,7 @@ const { icon, title, slug, priceLabel, popular = false } = Astro.props;
 
 <a
   href={`/services#${slug}`}
-  class="flex items-center justify-between gap-4 border-b border-border py-4 transition-colors last:border-b-0 hover:bg-page/60"
+  class="-mx-4 flex items-center justify-between gap-4 border-b border-border px-4 py-4 transition-colors last:border-b-0 hover:bg-page/60 sm:-mx-6 sm:px-6"
 >
   <div class="flex items-center gap-4">
     <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-teal-light text-teal">
@@ -31,5 +31,5 @@ const { icon, title, slug, priceLabel, popular = false } = Astro.props;
       }
     </span>
   </div>
-  <span class="min-w-0 text-right text-sm font-medium text-ink-muted">{priceLabel}</span>
+  <span class="min-w-0 text-right text-sm font-medium text-teal">{priceLabel}</span>
 </a>

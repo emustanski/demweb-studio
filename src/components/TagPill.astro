@@ -1,9 +1,17 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
-  tag: string;
+  icon: string;
+  label: string;
 }
 
-const { tag } = Astro.props;
+const { icon, label } = Astro.props;
 ---
 
-<span class="rounded-full border border-border px-2.5 py-1 text-xs font-medium text-ink-muted">{tag}</span>
+<span
+  class="inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1 text-xs font-medium text-ink-muted"
+>
+  <Icon name={icon} class="size-3 shrink-0" />
+  {label}
+</span>

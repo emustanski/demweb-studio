@@ -5,9 +5,12 @@ import BrowserFrameGraphic from '../components/BrowserFrameGraphic.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import ServiceListItem from '../components/ServiceListItem.astro';
 import ReassuranceBanner from '../components/ReassuranceBanner.astro';
+import FeaturedOfferCard from '../components/FeaturedOfferCard.astro';
+import ProcessTeaser from '../components/ProcessTeaser.astro';
 import PortfolioCard from '../components/PortfolioCard.astro';
 import ReviewsSection from '../components/ReviewsSection.astro';
 import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
 import { SITE } from '../lib/site';
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -32,9 +35,17 @@ const featuredWork = (await getCollection('portfolio'))
           aren't — fast, SEO-first, and built around your business, from a first launch site to a full redesign.
         </p>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button href="/contact?interested=Full+SEO+Audit" variant="secondary">Get a Free 5-Point Site Check</Button>
+          <Button href="/contact?interested=Full+SEO+Audit" variant="secondary">Get a Free Website Check</Button>
           <Button href="/contact">Get a Free Quote</Button>
         </div>
+        <p class="mt-4 flex items-center gap-2 text-sm text-ink-secondary">
+          <Icon name="IconRocket" class="size-4 shrink-0 text-teal" />
+          Free, no-obligation quote — most projects launched within 7 days.
+        </p>
+        <p class="mt-2 flex items-center gap-2 text-sm text-ink-secondary">
+          <Icon name="IconMessage" class="size-4 shrink-0 text-teal" />
+          See a first concept within 48 hours of our call.
+        </p>
       </div>
       <div class="mx-auto hidden w-full max-w-md lg:mx-0 lg:block">
         <BrowserFrameGraphic />
@@ -49,7 +60,10 @@ const featuredWork = (await getCollection('portfolio'))
       <h2 class="text-2xl font-medium text-ink sm:text-3xl">Services</h2>
       <a href="/services" class="text-sm font-medium text-teal hover:underline">View all services</a>
     </div>
-    <div class="mt-6 rounded-2xl border border-border bg-card px-4 sm:px-6">
+    <p class="mt-2 text-sm text-ink-secondary">
+      One-time project pricing, no subscriptions — and you work directly with me, start to finish.
+    </p>
+    <div class="mt-6 overflow-hidden rounded-2xl border border-border bg-card px-4 sm:px-6">
       {
         services.map((service) => (
           <ServiceListItem
@@ -63,9 +77,14 @@ const featuredWork = (await getCollection('portfolio'))
       }
     </div>
     <div class="mt-6">
+      <FeaturedOfferCard />
+    </div>
+    <div class="mt-6">
       <ReassuranceBanner />
     </div>
   </section>
+
+  <ProcessTeaser />
 
   {
     featuredWork.length > 0 && (
@@ -82,10 +101,22 @@ const featuredWork = (await getCollection('portfolio'))
               title={data.title}
               slug={data.slug}
               summary={data.summary}
-              tags={data.tags}
+              siteType={data.siteType}
+              focus={data.focus}
+              performance={data.performance}
               image={data.image}
             />
           ))}
+        </div>
+        <div class="mt-8 rounded-2xl border border-border bg-card p-8 text-center sm:p-10">
+          <h3 class="text-xl font-medium text-ink sm:text-2xl">Your business could be here next.</h3>
+          <p class="mx-auto mt-3 max-w-xl text-ink-secondary">
+            Every project starts with a free, no-obligation conversation about what you need — no pressure, no
+            jargon, just a straight answer on scope and price.
+          </p>
+          <div class="mt-6">
+            <Button href="/contact">Get a Free Quote</Button>
+          </div>
         </div>
       </section>
     )
