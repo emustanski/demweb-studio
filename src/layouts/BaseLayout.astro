@@ -1,8 +1,18 @@
 ---
 import '../styles/global.css';
-// Imported directly (not via CSS @import in global.css) so Vite emits these
-// as parallel-loadable <link rel="stylesheet"> tags instead of a
-// render-blocking nested-import chain — see the comment in global.css.
+// Astro's compiler bundles this + the two font-face imports below into one
+// hashed CSS file per-build and auto-injects a single <link rel="stylesheet">
+// for it (confirmed: same hashed filename across every page). It's the only
+// render-blocking resource on the site — PageSpeed Insights flags ~200ms.
+// A ?url import to hand-hoist that link earlier in <head> was tried and
+// reverted: Astro/Vite doesn't dedupe it against the auto-bundled file, so it
+// ships as a genuinely separate ~29KB stylesheet (missing the font-face rules
+// too) instead of reusing the existing one — worse, not better. Deferring via
+// rel=preload+swap was also rejected (see git history / prior planning docs)
+// since ~100% of this site's visual styling is Tailwind utility classes in
+// this one file — deferring it would cause a flash of unstyled content on
+// every page, a worse trade-off than the ~200ms this would save. No clean
+// fix exists within Astro's default CSS pipeline; left as-is.
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import Nav from '../components/Nav.astro';

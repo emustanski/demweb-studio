@@ -20,9 +20,10 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-  /* Primary accent — teal. CTAs, links, icons. */
+  /* Primary accent — teal, split by role (see dark-mode block below for why). */
   --color-teal: #0f6e56;
-  --color-teal-hover: #0c5a46;
+  --color-teal-fill: #0f6e56;
+  --color-teal-fill-hover: #0c5a46;
 
   /* Reassurance banner — same teal family, not a third color. */
   --color-teal-light: #dcefe6;
@@ -61,8 +62,17 @@
  * homepage mockup first (see conversation history) before going live here.
  */
 :root {
-  --color-teal: #d85a30;
-  --color-teal-hover: #e8734a;
+  /*
+   * --color-teal is split into a text/link/icon role and a fill role because
+   * one hex value can't clear WCAG AA (4.5:1) in both jobs at once: a
+   * fill-under-white-text role needs to go darker, a foreground-on-dark-surface
+   * role needs to go lighter. #D85A30 (the original single dark-mode value)
+   * failed both at ~3.8-4.4:1 — confirmed against a real PageSpeed Insights
+   * Accessibility audit, not just computed in isolation.
+   */
+  --color-teal: #e8734a;
+  --color-teal-fill: #c14c25;
+  --color-teal-fill-hover: #a3401f;
 
   --color-teal-light: #3a2a20;
   --color-teal-deep: #f5a98a;
