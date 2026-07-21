@@ -15,6 +15,16 @@ import '../styles/global.css';
 // fix exists within Astro's default CSS pipeline; left as-is.
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
+// Preload the two actual latin woff2 files (the only subset this
+// English-only site ever renders) so the browser fetches them in parallel
+// with the CSS instead of waiting to parse it first and discover the
+// @font-face rule. Unlike the CSS-hoist attempt above, this doesn't touch
+// when styles apply — only when the font bytes start downloading — so no
+// FOUC risk. Confirmed via build inspection: the hashed URL this resolves to
+// is identical to the one the CSS bundle itself references, so the browser
+// dedupes it to one request per file, not two.
+import interLatin400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
+import interLatin500 from '@fontsource/inter/files/inter-latin-500-normal.woff2?url';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../lib/site';
@@ -41,6 +51,8 @@ const pageTitle = title === SITE.name || title.startsWith(`${SITE.name} `) ? tit
 <html lang={Astro.currentLocale ?? 'en'}>
   <head>
     <meta charset="utf-8" />
+    <link rel="preload" as="font" type="font/woff2" href={interLatin400} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={interLatin500} crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
