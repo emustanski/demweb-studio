@@ -1,0 +1,59 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogTagPill from '../../components/BlogTagPill.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { formatAbsoluteDate } from '../../lib/formatDate';
+import { articleSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const relatedService = post.data.relatedService ? await getEntry(post.data.relatedService) : undefined;
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema(post.data))} />
+
+  <article class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <a href="/blog" class="text-sm font-medium text-teal hover:underline">&larr; Back to blog</a>
+
+    <h1 class="mt-6 text-4xl font-medium tracking-tight text-ink sm:text-5xl">{post.data.title}</h1>
+    <time datetime={post.data.date.toISOString()} class="mt-4 block text-sm text-ink-muted">
+      {formatAbsoluteDate(post.data.date.toISOString())}
+    </time>
+    <div class="mt-4 flex flex-wrap gap-2">
+      {post.data.tags.map((tag) => <BlogTagPill label={tag} />)}
+    </div>
+
+    <div class="prose mt-10 max-w-none">
+      <Content />
+    </div>
+
+    {
+      relatedService && (
+        <div class="mt-16 border-t border-border pt-10">
+          <h2 class="text-lg font-medium text-ink">Related service</h2>
+          <div class="mt-4">
+            <ServiceCard
+              icon={relatedService.data.icon}
+              title={relatedService.data.title}
+              slug={relatedService.data.slug}
+              priceLabel={relatedService.data.priceLabel}
+              summary={relatedService.data.summary}
+              whatsIncluded={relatedService.data.whatsIncluded}
+              popular={relatedService.data.popular}
+            />
+          </div>
+        </div>
+      )
+    }
+  </article>
+</BaseLayout>

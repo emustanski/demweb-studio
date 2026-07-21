@@ -28,3 +28,15 @@ export function faqPageSchema(items: { question: string; answer: string }[]) {
     })),
   };
 }
+
+export function articleSchema(post: { title: string; description: string; date: Date; slug: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date.toISOString(),
+    author: { '@type': 'Organization', name: SITE.name },
+    url: new URL(`/blog/${post.slug}`, SITE.url).toString(),
+  };
+}

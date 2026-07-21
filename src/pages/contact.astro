@@ -4,30 +4,108 @@ import Button from '../components/Button.astro';
 import { SITE } from '../lib/site';
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
-
-const interestOptions = [
-  'Custom Website Build',
-  'Website Redesign',
-  'Performance / Speed Optimization',
-  'Full SEO Audit',
-  'Other',
-];
 ---
 
 <BaseLayout
-  title="Get a Free Website Quote or Site Check"
-  description="Get a free quote for a new website, or a free website check on your existing site. DEMWeb Studio replies within one business day."
+  title="Get a Free Call or Site Check"
+  description="Get a free call about a new website, or a free website check on your existing site. DEMWeb Studio replies within one business day."
 >
   <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Get in touch</h1>
       <p class="mt-5 text-lg text-ink-secondary">
-        Tell us about your project and we'll get back to you within one business day. Prefer email? Write to{' '}
+        Tell me about your project and I'll get back to you within one business day. Prefer email? Write to{' '}
         <a href={`mailto:${SITE.email}`} class="font-medium text-teal hover:underline">{SITE.email}</a> directly.
       </p>
     </div>
 
     <form id="contact-form" class="mt-10 space-y-5 rounded-2xl border border-border bg-card p-6 sm:p-8" novalidate>
+      <div>
+        <span class="block text-sm font-medium text-ink">Do you already have a website?</span>
+        <div class="mt-1.5 grid grid-cols-1 gap-3 sm:grid-cols-2" aria-describedby="projectStatus-error">
+          <label
+            class="flex cursor-pointer items-center justify-center rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm font-medium text-ink-secondary transition-colors has-[:checked]:border-teal has-[:checked]:bg-teal-light has-[:checked]:text-teal"
+          >
+            <input type="radio" name="projectStatus" value="new" required class="sr-only" />
+            No, I need one built
+          </label>
+          <label
+            class="flex cursor-pointer items-center justify-center rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm font-medium text-ink-secondary transition-colors has-[:checked]:border-teal has-[:checked]:bg-teal-light has-[:checked]:text-teal"
+          >
+            <input type="radio" name="projectStatus" value="existing" required class="sr-only" />
+            Yes, I have one
+          </label>
+        </div>
+        <p id="projectStatus-error" class="mt-1 text-sm text-red-600" role="alert"></p>
+      </div>
+
+      <div id="interested-field" class="hidden">
+        <label for="interested" class="block text-sm font-medium text-ink">Interested in</label>
+        <select
+          id="interested"
+          name="interested"
+          aria-describedby="interested-error"
+          class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
+        >
+        </select>
+        <p id="interested-error" class="mt-1 text-sm text-red-600" role="alert"></p>
+      </div>
+
+      <div id="new-site-fields" class="hidden grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div>
+          <label for="budget" class="block text-sm font-medium text-ink">Budget <span class="text-ink-muted">(optional)</span></label>
+          <select
+            id="budget"
+            name="budget"
+            class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
+          >
+            <option value="">Prefer not to say</option>
+            <option value="Under €500">Under €500</option>
+            <option value="€500–€1,000">€500–€1,000</option>
+            <option value="€1,000+">€1,000+</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+        <div>
+          <label for="timeline" class="block text-sm font-medium text-ink">Timeline <span class="text-ink-muted">(optional)</span></label>
+          <select
+            id="timeline"
+            name="timeline"
+            class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
+          >
+            <option value="">Prefer not to say</option>
+            <option value="ASAP / within 2 weeks">ASAP / within 2 weeks</option>
+            <option value="Within a month">Within a month</option>
+            <option value="Flexible, no rush">Flexible, no rush</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="existing-site-fields" class="hidden grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div>
+          <label for="websiteUrl" class="block text-sm font-medium text-ink">Website URL <span class="text-ink-muted">(optional)</span></label>
+          <input
+            type="url"
+            id="websiteUrl"
+            name="websiteUrl"
+            maxlength="300"
+            autocomplete="url"
+            placeholder="https://example.com"
+            class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
+          />
+        </div>
+        <div>
+          <label for="biggestConcern" class="block text-sm font-medium text-ink">Biggest concern <span class="text-ink-muted">(optional)</span></label>
+          <input
+            type="text"
+            id="biggestConcern"
+            name="biggestConcern"
+            maxlength="200"
+            class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
+          />
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <label for="name" class="block text-sm font-medium text-ink">Name</label>
@@ -58,19 +136,6 @@ const interestOptions = [
           />
           <p id="email-error" class="mt-1 text-sm text-red-600" role="alert"></p>
         </div>
-      </div>
-
-      <div>
-        <label for="interested" class="block text-sm font-medium text-ink">Interested in</label>
-        <select
-          id="interested"
-          name="interested"
-          aria-describedby="interested-error"
-          class="mt-1.5 w-full rounded-lg border border-border bg-page px-3.5 py-2.5 text-sm text-ink outline-none focus:border-teal focus:ring-1 focus:ring-teal"
-        >
-          {interestOptions.map((option) => <option value={option}>{option}</option>)}
-        </select>
-        <p id="interested-error" class="mt-1 text-sm text-red-600" role="alert"></p>
       </div>
 
       <div>
@@ -105,14 +170,78 @@ const interestOptions = [
     const nameInput = document.getElementById('name') as HTMLInputElement | null;
     const emailInput = document.getElementById('email') as HTMLInputElement | null;
     const messageInput = document.getElementById('message') as HTMLTextAreaElement | null;
+    const projectStatusRadios = document.querySelectorAll<HTMLInputElement>('input[name="projectStatus"]');
+    const newSiteFields = document.getElementById('new-site-fields');
+    const existingSiteFields = document.getElementById('existing-site-fields');
+    const interestedField = document.getElementById('interested-field');
+    const interestedSelect = document.getElementById('interested') as HTMLSelectElement | null;
 
-    // Pre-fill "Interested in" from the CTA that linked here, e.g. /contact?interested=Full+SEO+Audit
+    // "Interested in" is scoped to which path is picked — someone without a
+    // site yet is obviously interested in a Custom Website Build, not a
+    // Redesign or an Audit of a site that doesn't exist. "Other" stays on
+    // both lists as an escape hatch for anything that doesn't fit neatly.
+    const NEW_SITE_INTERESTS = ['Custom Website Build', 'Other'];
+    const EXISTING_SITE_INTERESTS = ['Website Redesign', 'Performance / Speed Optimization', 'Full SEO Audit', 'Other'];
+
+    function updateInterestOptions(status: string | undefined, preselect?: string) {
+      if (!interestedSelect) return;
+      const options = status === 'new' ? NEW_SITE_INTERESTS : status === 'existing' ? EXISTING_SITE_INTERESTS : [];
+      interestedSelect.innerHTML = options.map((option) => `<option value="${option}">${option}</option>`).join('');
+      // A new-site enquiry is unambiguously a Custom Website Build unless the
+      // visitor says otherwise — auto-selecting it saves a redundant click.
+      // An existing-site enquiry could reasonably be any of several things,
+      // so nothing is pre-picked for that path.
+      if (preselect && options.includes(preselect)) {
+        interestedSelect.value = preselect;
+      } else if (status === 'new') {
+        interestedSelect.value = 'Custom Website Build';
+      }
+    }
+
+    // Conditional fields are shown/hidden based on the toggle, but only the
+    // currently-visible group's values are ever sent — switching the toggle
+    // after filling one side doesn't leak stale hidden-field data into the
+    // submission (see the submit handler below, which reads projectStatus
+    // fresh rather than trusting whatever's in the DOM).
+    function updateConditionalFields() {
+      const checked = form?.querySelector<HTMLInputElement>('input[name="projectStatus"]:checked');
+      newSiteFields?.classList.toggle('hidden', checked?.value !== 'new');
+      existingSiteFields?.classList.toggle('hidden', checked?.value !== 'existing');
+      interestedField?.classList.toggle('hidden', !checked);
+      updateInterestOptions(checked?.value);
+    }
+
+    function validateProjectStatus(): boolean {
+      const checked = form?.querySelector<HTMLInputElement>('input[name="projectStatus"]:checked');
+      const errorEl = document.getElementById('projectStatus-error');
+      const valid = !!checked;
+      if (errorEl) errorEl.textContent = valid ? '' : 'Please choose one.';
+      return valid;
+    }
+
+    projectStatusRadios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        updateConditionalFields();
+        validateProjectStatus();
+      });
+    });
+
+    // Pre-fill from the CTA that linked here, e.g. /contact?interested=Full+SEO+Audit.
+    // Custom Website Build implies no site exists yet; everything else on the
+    // "interested" list implies one already does — so the query param also
+    // decides which toggle option to pre-select, not just the dropdown value.
     const params = new URLSearchParams(window.location.search);
     const interested = params.get('interested');
-    const interestedSelect = document.getElementById('interested') as HTMLSelectElement | null;
-    if (interested && interestedSelect) {
-      const match = Array.from(interestedSelect.options).find((opt) => opt.value === interested);
-      if (match) interestedSelect.value = interested;
+    if (interested) {
+      const impliedStatus = interested === 'Custom Website Build' ? 'new' : 'existing';
+      const radioToCheck = form?.querySelector<HTMLInputElement>(`input[name="projectStatus"][value="${impliedStatus}"]`);
+      if (radioToCheck) {
+        radioToCheck.checked = true;
+        newSiteFields?.classList.toggle('hidden', impliedStatus !== 'new');
+        existingSiteFields?.classList.toggle('hidden', impliedStatus !== 'existing');
+        interestedField?.classList.toggle('hidden', false);
+        updateInterestOptions(impliedStatus, interested);
+      }
     }
 
     // The form has novalidate (suppresses native inline validation UI), but the
@@ -164,17 +293,23 @@ const interestOptions = [
       event.preventDefault();
       if (!status || !submitButton) return;
 
+      const projectStatusValid = validateProjectStatus();
       const nameValid = validateField(nameInput, 'Please enter your name.');
       const emailValid = validateField(emailInput, 'Please enter your email address.', 'Please enter a valid email address.');
       const messageValid = validateField(messageInput, 'Please enter a message.');
 
-      if (!nameValid || !emailValid || !messageValid) {
-        (!nameValid ? nameInput : !emailValid ? emailInput : messageInput)?.focus();
+      if (!projectStatusValid || !nameValid || !emailValid || !messageValid) {
+        if (!projectStatusValid) {
+          document.querySelector<HTMLInputElement>('input[name="projectStatus"]')?.focus();
+        } else {
+          (!nameValid ? nameInput : !emailValid ? emailInput : messageInput)?.focus();
+        }
         return;
       }
 
       const formData = new FormData(form);
       const turnstileToken = formData.get('cf-turnstile-response');
+      const projectStatus = formData.get('projectStatus');
 
       if (!turnstileToken) {
         status.textContent = 'Please complete the spam check before sending.';
@@ -196,6 +331,16 @@ const interestOptions = [
             interested: formData.get('interested'),
             message: formData.get('message'),
             turnstileToken,
+            projectStatus,
+            // Only the currently-relevant path's fields are sent — the other
+            // path's inputs are hidden but not disabled, so formData could
+            // technically still contain stale values from before a toggle
+            // switch; only include what actually applies to the chosen path.
+            ...(projectStatus === 'new'
+              ? { budget: formData.get('budget'), timeline: formData.get('timeline') }
+              : projectStatus === 'existing'
+                ? { websiteUrl: formData.get('websiteUrl'), biggestConcern: formData.get('biggestConcern') }
+                : {}),
           }),
         });
 
@@ -212,7 +357,7 @@ const interestOptions = [
         }
 
         form.reset();
-        status.textContent = "Thanks — your message is on its way. We'll reply within one business day.";
+        status.textContent = "Thanks — your message is on its way. I'll reply within one business day.";
         status.className = 'text-sm text-teal-deep';
       } catch (err) {
         status.textContent = err instanceof Error ? err.message : 'Something went wrong. Please try again.';

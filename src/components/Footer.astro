@@ -1,5 +1,5 @@
 ---
-import { FOOTER_LINKS, LEGAL_LINKS, SITE } from '../lib/site';
+import { FOOTER_STUDIO_LINKS, FOOTER_RESOURCES_LINKS, LEGAL_LINKS, SITE } from '../lib/site';
 import Button from './Button.astro';
 import Logo from './Logo.astro';
 
@@ -12,13 +12,13 @@ const year = new Date().getFullYear();
       <div>
         <p class="text-lg font-medium text-teal-deep">Ready to talk about your website?</p>
         <p class="mt-1 text-sm text-teal-deep/80">
-          Get a free quote, or a free website check if you already have a site.
+          Get a free call, or a free website check if you already have a site.
         </p>
       </div>
-      <Button href="/contact" class="shrink-0">Get a Free Quote</Button>
+      <Button href="/contact" class="shrink-0">Get a Free Call</Button>
     </div>
 
-    <div class="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4">
+    <div class="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-5">
       <div class="col-span-2 sm:col-span-1">
         <Logo size="sm" />
         <p class="mt-3 text-sm text-ink-muted">{SITE.tagline}</p>
@@ -28,7 +28,22 @@ const year = new Date().getFullYear();
         <p class="text-sm font-medium text-ink">Studio</p>
         <ul class="mt-3 space-y-2">
           {
-            FOOTER_LINKS.map((link) => (
+            FOOTER_STUDIO_LINKS.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-ink-secondary transition-colors hover:text-teal">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-sm font-medium text-ink">Resources</p>
+        <ul class="mt-3 space-y-2">
+          {
+            FOOTER_RESOURCES_LINKS.map((link) => (
               <li>
                 <a href={link.href} class="text-sm text-ink-secondary transition-colors hover:text-teal">
                   {link.label}
@@ -58,7 +73,7 @@ const year = new Date().getFullYear();
         <p class="text-sm font-medium text-ink">Contact</p>
         <ul class="mt-3 space-y-2">
           <li>
-            <a href={`mailto:${SITE.email}`} class="text-sm text-ink-secondary transition-colors hover:text-teal">
+            <a href={`mailto:${SITE.email}`} class="break-words text-sm text-ink-secondary transition-colors hover:text-teal">
               {SITE.email}
             </a>
           </li>

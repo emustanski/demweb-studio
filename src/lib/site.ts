@@ -20,18 +20,21 @@ export const NAV_LINKS = [
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/portfolio' },
   { label: 'About', href: '/about' },
-  // Blog nav link is added in Phase 2 once real posts exist (CLAUDE.md Section 8) —
-  // an empty/linkless Blog tab would be exactly the kind of thin experience the
-  // brief avoids elsewhere (empty locale pages, "coming soon" testimonials).
+  { label: 'Blog', href: '/blog' },
 ] as const;
 
-export const FOOTER_LINKS = [
+export const FOOTER_STUDIO_LINKS = [
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/portfolio' },
   { label: 'About', href: '/about' },
-  { label: 'How We Work', href: '/process' },
-  { label: 'FAQ', href: '/faq' },
   { label: 'Contact', href: '/contact' },
+] as const;
+
+export const FOOTER_RESOURCES_LINKS = [
+  { label: 'How We Work', href: '/process' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Free Website Check', href: '/free-website-check' },
 ] as const;
 
 export const LEGAL_LINKS = [

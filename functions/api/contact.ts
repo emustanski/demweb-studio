@@ -19,6 +19,11 @@ interface ContactPayload {
   interested: string;
   message: string;
   turnstileToken: string;
+  projectStatus: string;
+  budget: string;
+  timeline: string;
+  websiteUrl: string;
+  biggestConcern: string;
 }
 
 // Hand-written in place of @cloudflare/workers-types (not on the approved
@@ -38,6 +43,15 @@ const INTEREST_OPTIONS = [
   'Full SEO Audit',
   'Other',
 ];
+
+// Keep in sync with the projectStatus radio values in src/pages/contact.astro.
+const PROJECT_STATUS_OPTIONS = ['new', 'existing'];
+
+// Loose caps on the optional lead-qualification fields — these are hints for
+// scoping the conversation, not validated against an allow-list like
+// INTEREST_OPTIONS/PROJECT_STATUS_OPTIONS, so a length cap is the only real
+// guard needed.
+const OPTIONAL_FIELD_MAX = 300;
 
 // Keep in sync with the minlength/maxlength attributes on the form fields in
 // src/pages/contact.astro, same cross-pipeline reason as INTEREST_OPTIONS.
@@ -93,6 +107,12 @@ export async function onRequestPost({ request, env }: PagesFunctionContext<Env>)
   const email = typeof payload.email === 'string' ? payload.email.trim() : '';
   const interested = typeof payload.interested === 'string' ? payload.interested.trim() : '';
   const message = typeof payload.message === 'string' ? payload.message.trim() : '';
+  const projectStatus = typeof payload.projectStatus === 'string' ? payload.projectStatus.trim() : '';
+  const budget = typeof payload.budget === 'string' ? payload.budget.trim().slice(0, OPTIONAL_FIELD_MAX) : '';
+  const timeline = typeof payload.timeline === 'string' ? payload.timeline.trim().slice(0, OPTIONAL_FIELD_MAX) : '';
+  const websiteUrl = typeof payload.websiteUrl === 'string' ? payload.websiteUrl.trim().slice(0, OPTIONAL_FIELD_MAX) : '';
+  const biggestConcern =
+    typeof payload.biggestConcern === 'string' ? payload.biggestConcern.trim().slice(0, OPTIONAL_FIELD_MAX) : '';
 
   // Each check returns which field is at fault, not just a generic message —
   // lets the client point at the actual input even if a request bypasses
@@ -122,6 +142,10 @@ export async function onRequestPost({ request, env }: PagesFunctionContext<Env>)
     return jsonResponse({ error: 'Please choose a valid option for "Interested in".', field: 'interested' }, 400);
   }
 
+  if (!projectStatus || !PROJECT_STATUS_OPTIONS.includes(projectStatus)) {
+    return jsonResponse({ error: 'Please choose whether this is a new or existing website.', field: 'projectStatus' }, 400);
+  }
+
   if (!message) {
     return jsonResponse({ error: 'Please enter a message.', field: 'message' }, 400);
   }
@@ -145,13 +169,25 @@ export async function onRequestPost({ request, env }: PagesFunctionContext<Env>)
   const safeName = sanitizeForHeader(name);
   const safeInterested = sanitizeForHeader(interested);
 
+  // One shared block of conditional lines for both emails below, rather than
+  // two separate templates — only the fields relevant to the chosen
+  // projectStatus path are ever included.
+  const projectStatusLabel = projectStatus === 'new' ? 'New website' : 'Already have a website';
+  const extraLines = [
+    `Project status: ${projectStatusLabel}`,
+    ...(projectStatus === 'new'
+      ? [budget ? `Budget: ${budget}` : '', timeline ? `Timeline: ${timeline}` : '']
+      : [websiteUrl ? `Website: ${websiteUrl}` : '', biggestConcern ? `Biggest concern: ${biggestConcern}` : '']
+    ).filter((line) => line.length > 0),
+  ].join('\n');
+
   const resend = new Resend(env.RESEND_API_KEY);
   const { error } = await resend.emails.send({
     from: env.RESEND_FROM_EMAIL,
     to: env.RESEND_TO_EMAIL,
     replyTo: email,
     subject: `New enquiry: ${safeInterested || 'General'} — ${safeName}`,
-    text: `Name: ${name}\nEmail: ${email}\nInterested in: ${interested || 'Not specified'}\n\n${message}`,
+    text: `Name: ${name}\nEmail: ${email}\nInterested in: ${interested || 'Not specified'}\n${extraLines}\n\n${message}`,
   });
 
   if (error) {
@@ -166,8 +202,8 @@ export async function onRequestPost({ request, env }: PagesFunctionContext<Env>)
     from: env.RESEND_FROM_EMAIL,
     to: email,
     replyTo: env.RESEND_TO_EMAIL,
-    subject: "We've got your message — DEMWeb Studio",
-    text: `Hi ${name},\n\nThanks for reaching out to DEMWeb Studio — this confirms we've received your message and will reply within one business day.\n\nFor your records, here's what you sent:\n\nInterested in: ${interested || 'Not specified'}\nMessage: ${message}\n\nIf anything's missing or you want to add something, just reply directly to this email.\n\nTalk soon,\nDEMWeb Studio`,
+    subject: "I've got your message — DEMWeb Studio",
+    text: `Hi ${name},\n\nThanks for reaching out to DEMWeb Studio — this confirms I've received your message and will reply within one business day.\n\nFor your records, here's what you sent:\n\nInterested in: ${interested || 'Not specified'}\n${extraLines}\nMessage: ${message}\n\nIf anything's missing or you want to add something, just reply directly to this email.\n\nTalk soon,\nEdi`,
   });
 
   if (confirmationError) {

@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+
+const included = [
+  'A quick look at how fast your site loads',
+  'A check of how well it works on mobile',
+  'A basic on-page SEO pass — titles, meta descriptions, obvious gaps',
+  'A short list of the most obvious fixes worth making',
+];
+
+const details = [
+  {
+    icon: 'IconMail',
+    title: 'How to submit',
+    description: 'Send your website URL through the form below — no account or sign-up needed.',
+  },
+  {
+    icon: 'IconRefresh',
+    title: 'Response time',
+    description: "I reply within one business day, same as any other enquiry.",
+  },
+  {
+    icon: 'IconCheck',
+    title: 'No obligation, no spam',
+    description: "It's a genuine free look, not a sales pitch in disguise — and your details are never shared or added to a mailing list.",
+  },
+  {
+    icon: 'IconSearch',
+    title: 'Manual review',
+    description: "I actually look at your site myself — this isn't an automated report generator.",
+  },
+];
+---
+
+<BaseLayout
+  title="Free Website Check"
+  description="A quick, no-cost look at your website's speed, mobile usability, and basic SEO — with a short list of the most obvious fixes worth making."
+>
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h1 class="text-4xl font-medium tracking-tight text-ink sm:text-5xl">Free Website Check</h1>
+      <p class="mt-5 text-lg text-ink-secondary">
+        A quick, no-cost look at your existing website — not the full paid audit, just a fast read on the most
+        obvious things worth fixing.
+      </p>
+    </div>
+
+    <div class="mt-12 rounded-2xl border border-border bg-card p-8 sm:p-10">
+      <h2 class="text-xl font-medium text-ink">What you'll get</h2>
+      <ul class="mt-5 space-y-3">
+        {
+          included.map((item) => (
+            <li class="flex items-start gap-2 text-sm text-ink-secondary">
+              <Icon name="IconCheck" class="mt-0.5 size-4 shrink-0 text-teal" />
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {
+        details.map((detail) => (
+          <div class="rounded-2xl border border-border bg-card p-6">
+            <span class="flex size-10 items-center justify-center rounded-lg bg-teal-light text-teal">
+              <Icon name={detail.icon} class="size-5" />
+            </span>
+            <h3 class="mt-3 font-medium text-ink">{detail.title}</h3>
+            <p class="mt-1 text-sm text-ink-secondary">{detail.description}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 flex flex-col items-center gap-4 rounded-2xl bg-teal-light p-8 text-center sm:p-10">
+      <p class="text-teal-deep">Ready to see what's holding your site back?</p>
+      <Button href="/contact?interested=Full+SEO+Audit">Get a Free Website Check</Button>
+    </div>
+  </section>
+</BaseLayout>

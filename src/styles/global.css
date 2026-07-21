@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /*
  * Inter font CSS is imported directly in BaseLayout.astro's frontmatter,
@@ -93,4 +94,30 @@ body {
   background-color: var(--color-page);
   color: var(--color-ink);
   font-family: var(--font-sans);
+}
+
+/*
+ * Tailwind Typography (@tailwindcss/typography) defaults every one of these
+ * variables to its own gray/slate scale — CLAUDE.md Section 10 forbids that
+ * palette sitewide, so every variable the plugin actually reads is routed
+ * through this project's own --color-* tokens instead. Uses plain var()
+ * references rather than duplicating light/dark values, so this
+ * automatically follows whichever palette is live (see the :root override
+ * block above) with no separate dark-mode copy needed.
+ */
+.prose {
+  --tw-prose-body: var(--color-ink-secondary);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-lead: var(--color-ink-secondary);
+  --tw-prose-links: var(--color-teal);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-counters: var(--color-ink-muted);
+  --tw-prose-bullets: var(--color-border);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--color-teal);
+  --tw-prose-captions: var(--color-ink-muted);
+  --tw-prose-code: var(--color-ink);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border);
 }
